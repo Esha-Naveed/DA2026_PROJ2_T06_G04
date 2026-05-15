@@ -7,4 +7,8 @@ add_executable(DA2026_PROJ2_T06_G04 main.cpp
         menu.cpp
         menu.h
         parser.cpp
-        parser.h)
+        parser.h
+        output_file.cpp
+        output_file.h
+        web_creation.cpp
+        web_creation.h)
