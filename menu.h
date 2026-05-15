@@ -5,9 +5,10 @@
 #ifndef DA2026_PROJ2_T06_G04_MENU_H
 #define DA2026_PROJ2_T06_G04_MENU_H
 
+#include "dataStruct.h"
 
-class menu {
-};
+void displayMenu();
+void handleInteractiveMode(ProjData& data);
 
 
 #endif //DA2026_PROJ2_T06_G04_MENU_H
