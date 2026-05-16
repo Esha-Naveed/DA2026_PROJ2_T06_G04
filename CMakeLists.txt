@@ -12,4 +12,7 @@ add_executable(DA2026_PROJ2_T06_G04 main.cpp
         output_file.h
         web_creation.cpp
         web_creation.h
-        dataStruct.h)
+        dataStruct.h
+        src/createGraph.cpp
+        src/createGraph.h
+        src/graph.h)

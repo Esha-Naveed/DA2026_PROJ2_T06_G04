@@ -1,12 +1,9 @@
-/**
-* @file graph.h
- * @brief Graph infrastructure for flow networks.
- * @details Implements Vertices and Edges with support for residual graphs,
- * essential for Max-Flow algorithms like Edmonds-Karp.
- */
+//
+// Created by esha-naveed on 5/15/26.
+//
 
-#ifndef DA_PROJECT1_GRAPH_H
-#define DA_PROJECT1_GRAPH_H
+#ifndef DA2026_PROJ2_T06_G04_GRAPH_H
+#define DA2026_PROJ2_T06_G04_GRAPH_H
 
 #include <iostream>
 #include <vector>
@@ -21,7 +18,8 @@ template <class T>
 class Vertex {
 public:
     Vertex(T in);
-    T getInfo() const;
+    T &getInfo();
+    void setInfo(const T &in);
     std::vector<Edge<T> *> getAdj() const;
 
     //for bfs
@@ -68,33 +66,12 @@ protected:
 template <class T>
 class Graph {
 public:
-    /**
-     * @brief Finds a vertex in the graph by its information content.
-     * @param in The information to search for.
-     * @return Pointer to the Vertex if found, nullptr otherwise.
-     * @time_complexity O(V) where V is the number of vertices.
-     */
+
     Vertex<T> *findVertex(const T &in) const;
 
-    /**
-     * @brief Adds a new vertex to the graph.
-     * @param in The information content for the new vertex.
-     * @return true if added, false if a vertex with that info already exists.
-     * @time_complexity O(V) because it calls findVertex first.
-     */
     bool addVertex(const T &in);
 
-    /**
-     * @brief Adds a directed flow edge between two vertices.
-     * @details Creates both a forward edge with the given capacity and a
-     * reverse (residual) edge with 0 capacity. Links them via setReverse().
-     * * @param sourc The info of the source vertex.
-     * @param dest The info of the destination vertex.
-     * @param cap The maximum capacity of the flow edge.
-     * @return true if both vertices exist and the edges were created, false otherwise.
-     * * @time_complexity O(V) due to findVertex calls (scanning the vertex set).
-     */
-    bool addFlowEdge(const T &sourc, const T &dest, double cap);
+    bool addFlowEdge(const T &source, const T &dest, double cap);
     void resetFlow();
     int getNumVertex() const;
     std::vector<Vertex<T> *> getVertexSet() const;
@@ -116,7 +93,10 @@ Edge<T> * Vertex<T>::addEdge(Vertex<T> *d, double w) {
 }
 
 template <class T>
-T Vertex<T>::getInfo() const { return this->info; }
+T& Vertex<T>::getInfo() const { return this->info; }
+
+template <class T>
+void Vertex<T>::setInfo(T &info) { this->info = info; }
 
 template <class T>
 std::vector<Edge<T>*> Vertex<T>::getAdj() const { return this->adj; }
@@ -165,9 +145,7 @@ void Edge<T>::setCapacity(int capacity) { this->capacity = capacity; }
 /********************** Graph  ****************************/
 
 template <class T>
-int Graph<T>::getNumVertex() const {
-    return vertexSet.size();
-}
+int Graph<T>::getNumVertex() const { return vertexSet.size(); }
 
 template <class T>
 std::vector<Vertex<T> *> Graph<T>::getVertexSet() const {
@@ -199,8 +177,8 @@ bool Graph<T>::addVertex(const T &in) {
 }
 
 template <class T>
-bool Graph<T>::addFlowEdge(const T &sourc, const T &dest, double cap) {
-    auto v1 = findVertex(sourc);
+bool Graph<T>::addFlowEdge(const T &source, const T &dest, double cap) {
+    auto v1 = findVertex(source);
     auto v2 = findVertex(dest);
     if (v1 == nullptr || v2 == nullptr) return false;
     auto e1 = v1->addEdge(v2, cap);
@@ -219,4 +197,4 @@ void Graph<T>::resetFlow() {
     }
 }
 
-#endif //DA_PROJECT1_GRAPH_H
+#endif //DA2026_PROJ2_T06_G04_GRAPH_H
