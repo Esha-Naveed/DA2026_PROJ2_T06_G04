@@ -93,10 +93,10 @@ Edge<T> * Vertex<T>::addEdge(Vertex<T> *d, double w) {
 }
 
 template <class T>
-T& Vertex<T>::getInfo() const { return this->info; }
+T& Vertex<T>::getInfo() { return this->info; }
 
 template <class T>
-void Vertex<T>::setInfo(T &info) { this->info = info; }
+void Vertex<T>::setInfo(const T &info) { this->info = info; }
 
 template <class T>
 std::vector<Edge<T>*> Vertex<T>::getAdj() const { return this->adj; }

@@ -3,16 +3,16 @@ project(DA2026_PROJ2_T06_G04)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(DA2026_PROJ2_T06_G04 main.cpp
-        menu.cpp
-        menu.h
-        parser.cpp
-        parser.h
-        output_file.cpp
-        output_file.h
-        web_creation.cpp
-        web_creation.h
-        dataStruct.h
+add_executable(DA2026_PROJ2_T06_G04 src/main.cpp
+        src/menu.cpp
+        src/menu.h
+        src/parser.cpp
+        src/parser.h
+        src/output_file.cpp
+        src/output_file.h
+        src/webProcessing.cpp
+        src/webProcessing.h
+        src/dataStruct.h
         src/createGraph.cpp
         src/createGraph.h
         src/graph.h

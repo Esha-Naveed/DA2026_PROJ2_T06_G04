@@ -17,7 +17,7 @@ public:
 
     static void splitting(Graph<Web>& g, int numReg, int maxSplitting, int &countSplit);
 
-    static Vetex<Web>* findMaxDegree(Graph<Web>& g);
+    static Vertex<Web>* findMaxDegree(Graph<Web>& g);
 };
 
 

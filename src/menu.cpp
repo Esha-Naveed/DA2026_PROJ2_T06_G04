@@ -8,6 +8,8 @@
 #include <iostream>
 
 #include "regAlloc.h"
+#include "dataStruct.h"
+#include "graph.h"
 
 using namespace std;
 
@@ -25,6 +27,7 @@ void displayMenu() {
 
 void handleInteractiveMode(ProjData& data) {
     int choice = -1;
+    Graph<Web> g;
     while (choice != 0) {
         displayMenu();
         if (!(cin >> choice)) {
