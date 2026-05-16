@@ -4,6 +4,7 @@
 /*will contain the function to print the gui interface and call specific functions based in the instructions
  */
 #include "menu.h"
+#include "parser.h"
 #include <iostream>
 
 using namespace std;
@@ -38,6 +39,11 @@ void handleInteractiveMode(ProjData& data) {
                 cin >> data.regsFile;
 
                 // parser(data);
+                if (parseRegsFile(data) && parseRangesFile(data)) {
+                    cout << "[Success] Data loaded cleanly. Found " << data.allWebs.size() << " variable webs." << endl;
+                } else {
+                    cout << "[Warning] Error parsing inputs. Please check file paths." << endl;
+                }
                 break;
             case 2:
                 // build interference graph
