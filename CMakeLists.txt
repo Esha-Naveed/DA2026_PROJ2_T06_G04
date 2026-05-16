@@ -15,4 +15,6 @@ add_executable(DA2026_PROJ2_T06_G04 main.cpp
         dataStruct.h
         src/createGraph.cpp
         src/createGraph.h
-        src/graph.h)
+        src/graph.h
+        src/regAlloc.cpp
+        src/regAlloc.h)
