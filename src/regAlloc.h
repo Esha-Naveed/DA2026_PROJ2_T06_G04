@@ -15,7 +15,9 @@ public:
 
     static void spilling(Graph<Web>& g, int numReg, int maxSpilling);
 
-    static void splitting(Graph<Web>& g, int numReg, int maxSplitting);
+    static void splitting(Graph<Web>& g, int numReg, int maxSplitting, int &countSplit);
+
+    static Vetex<Web>* findMaxDegree(Graph<Web>& g);
 };
 
 

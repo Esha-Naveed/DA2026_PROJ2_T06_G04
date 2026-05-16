@@ -6,7 +6,25 @@
  */
 #include "regAlloc.h"
 #include <algorithm>
+#include "createGraph.h"
 using namespace std;
+
+Vertex<Web>* regAlloc::findMaxDegree(Graph<Web>& g) {
+    //get vertices
+    auto vertices = g.getVertexSet();
+    Vertex<Web>* maxNode;
+    size_t maxEdges = 0;
+
+    for (auto vertex : vertices) {
+        if (vertex->getAdj().size() >= maxEdges) {
+            maxEdges = vertex->getAdj().size();
+            maxNode = vertex;
+        }
+    }
+
+    return maxNode;
+
+}
 
 bool regAlloc::baseAllocation(Graph<Web> &g, int numReg) {
     //getting vertices that we will work with
@@ -57,9 +75,87 @@ bool regAlloc::baseAllocation(Graph<Web> &g, int numReg) {
 }
 
 void regAlloc::spilling(Graph<Web> &g, int numReg, int maxSpilling) {
+    int countSpill = 0;
 
+    //until basic allocation doesn't work AND that is less than that
+    while (!baseAllocation(g, numReg) && countSpill < maxSpilling) {
+        Vertex<Web>* v = findMaxDegree(g);
+        if (!v) break; //if there is no v with max -- will only be possible if edges for all are 0
+
+        //else
+        //keep the max degree node to memory
+        v->getInfo().assignedRegister = -2;//keeping it -2 since any +ve number can be represented by the registers
+        countSpill++;
+
+        cout << "Spilled for the web: " << v->getInfo().id << " | name: " << v->getInfo().varName << endl;
+    }
 }
 
-void regAlloc::splitting(Graph<Web> &g, int numReg, int maxSplitting) {
-
+//using recursion for this
+void regAlloc::splitting(Graph<Web> &g, int numReg, int maxSplitting, int &countSplit) {
+    //checking if graph already perfectly colored
+    if (baseAllocation(g, numReg)) return; //works just fine, does not need to be split
+    //loops until countSplit < maxSplit
+    while (countSplit < maxSplitting) {
+        //finding vertex with most edges
+        Vertex<Web>* v = findMaxDegree(g);
+        if (!v) return;
+        /*splitting logic*/
+        Web &prevWeb = v->getInfo();
+        //make sure the web has more than points
+        if (prevWeb.progPoints.size() <= 1) {
+            prevWeb.assignedRegister = -2; continue;
+        }
+        //divide the points by 2
+        set<int> partA, partB;
+        int mid = prevWeb.progPoints.size()/2;
+        int i = 0;
+        for (int p : prevWeb.progPoints) {
+            if (i < mid) partA.insert(p);
+            else partB.insert(p);
+            i++;
+        }
+        //we need a new web of partB
+        Web splitWeb;
+        splitWeb.id = g.getNumVertex()+1;
+        splitWeb.varName = prevWeb.varName+"2";
+        splitWeb.progPoints = partB;
+        splitWeb.assignedRegister = -1;
+        //replace the part/vertex with partA
+        prevWeb.progPoints = partA;
+        //adding the new web/vertex to the graph
+        g.addVertex(splitWeb);
+        Vertex<Web>* newVertex = g.findVertex(splitWeb);
+        //re-doing interference edges with the new web system
+        /*using websInterfere from createGraph.cpp*/
+        auto allVertices = g.getVertexSet();
+        for (auto vertex : allVertices) {
+            if (vertex == v || vertex == newVertex) continue;
+            //since newVertex already has the splitWeb and it cannot have the original Vetrex beore split
+            //for partA
+            if (createGraph::WebsInterfere(v->getInfo(), vertex->getInfo())) {
+                g.addFlowEdge(v->getInfo(), vertex->getInfo(), 1);
+                g.addFlowEdge(vertex->getInfo(), v->getInfo(), 1);
+            }
+            //for partB
+            if (createGraph::WebsInterfere(newVertex->getInfo(), vertex->getInfo())) {
+                g.addFlowEdge(newVertex->getInfo(), vertex->getInfo(), 1);
+                g.addFlowEdge(vertex->getInfo(), newVertex->getInfo(), 1);
+            }
+        }
+        //web interference between the two new parts
+        if (createGraph::WebsInterfere(newVertex->getInfo(), v->getInfo())) {
+            g.addFlowEdge(newVertex->getInfo(), v->getInfo(), 1);
+            g.addFlowEdge(v->getInfo(), newVertex->getInfo(), 1);
+        }
+        countSplit++;
+        //recursive call
+        splitting(g, numReg, maxSplitting, countSplit);
+        if (baseAllocation(g, numReg)) return;
+        /*after each splitting it will check if baseAllocation is true or not
+         * as soon as it is, it gets out of the loop
+         * in recursion once the solution is found and the program backtracks to the
+         * first loop, to backtrack the 'return' is important to finish off the working loop
+         */
+    }
 }
