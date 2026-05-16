@@ -6,6 +6,8 @@
 #include "menu.h"
 #include <iostream>
 
+#include "regAlloc.h"
+
 using namespace std;
 
 void displayMenu() {
@@ -51,6 +53,12 @@ void handleInteractiveMode(ProjData& data) {
                     cout << "Error: Registers file path is empty." << endl;
                     break;
                 }
+                else if (regAlloc::baseAllocation(g, data.numReg)) {
+                    cout << "Success!" << endl;
+                }
+                else {
+                    cout << "Error. Requires Splitting or Spilling" << endl;
+                }
                 cout << "Enter output file path: ";
                 cin >> data.outputFile;
                 data.algorithmType = "basic";
@@ -63,7 +71,7 @@ void handleInteractiveMode(ProjData& data) {
                 cin >> k;
                 data.algoParam = k;
                 data.algorithmType = "spilling";
-                // call spillinh function
+                // call spilling function
                 break;
             }
             case 5: {
