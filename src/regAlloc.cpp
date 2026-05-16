@@ -95,17 +95,21 @@ void regAlloc::spilling(Graph<Web> &g, int numReg, int maxSpilling) {
 void regAlloc::splitting(Graph<Web> &g, int numReg, int maxSplitting, int &countSplit) {
     //checking if graph already perfectly colored
     if (baseAllocation(g, numReg)) return; //works just fine, does not need to be split
+
     //loops until countSplit < maxSplit
     while (countSplit < maxSplitting) {
         //finding vertex with most edges
         Vertex<Web>* v = findMaxDegree(g);
         if (!v) return;
+
         /*splitting logic*/
         Web &prevWeb = v->getInfo();
+
         //make sure the web has more than points
         if (prevWeb.progPoints.size() <= 1) {
             prevWeb.assignedRegister = -2; continue;
         }
+
         //divide the points by 2
         set<int> partA, partB;
         int mid = prevWeb.progPoints.size()/2;
@@ -115,17 +119,21 @@ void regAlloc::splitting(Graph<Web> &g, int numReg, int maxSplitting, int &count
             else partB.insert(p);
             i++;
         }
+
         //we need a new web of partB
         Web splitWeb;
         splitWeb.id = g.getNumVertex()+1;
         splitWeb.varName = prevWeb.varName+"2";
         splitWeb.progPoints = partB;
         splitWeb.assignedRegister = -1;
+
         //replace the part/vertex with partA
         prevWeb.progPoints = partA;
+
         //adding the new web/vertex to the graph
         g.addVertex(splitWeb);
         Vertex<Web>* newVertex = g.findVertex(splitWeb);
+
         //re-doing interference edges with the new web system
         /*using websInterfere from createGraph.cpp*/
         auto allVertices = g.getVertexSet();
@@ -143,14 +151,17 @@ void regAlloc::splitting(Graph<Web> &g, int numReg, int maxSplitting, int &count
                 g.addFlowEdge(vertex->getInfo(), newVertex->getInfo(), 1);
             }
         }
+
         //web interference between the two new parts
         if (createGraph::WebsInterfere(newVertex->getInfo(), v->getInfo())) {
             g.addFlowEdge(newVertex->getInfo(), v->getInfo(), 1);
             g.addFlowEdge(v->getInfo(), newVertex->getInfo(), 1);
         }
         countSplit++;
+
         //recursive call
         splitting(g, numReg, maxSplitting, countSplit);
+
         if (baseAllocation(g, numReg)) return;
         /*after each splitting it will check if baseAllocation is true or not
          * as soon as it is, it gets out of the loop
