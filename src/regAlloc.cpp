@@ -12,32 +12,50 @@ using namespace std;
 Vertex<Web>* regAlloc::findMaxDegree(Graph<Web>& g) {
     //get vertices
     auto vertices = g.getVertexSet();
-    Vertex<Web>* maxNode;
+    Vertex<Web>* maxNode = nullptr;
     size_t maxEdges = 0;
+    bool valid = true;
 
     for (auto vertex : vertices) {
-        if (vertex->getAdj().size() >= maxEdges) {
-            maxEdges = vertex->getAdj().size();
+        //skipping already done webs
+        if (vertex->getInfo().assignedRegister != -2) continue;
+
+        ////counting only the non-spilled adj
+        size_t activeEdges = 0;
+        for (auto edge : vertex->getAdj()) {
+            if (edge->getDest()->getInfo().assignedRegister != -2) activeEdges++;
+        }
+
+        if (valid || activeEdges > maxEdges) {
+            maxEdges = activeEdges;
             maxNode = vertex;
+            valid = false;
         }
     }
-
     return maxNode;
-
 }
 
 bool regAlloc::baseAllocation(Graph<Web> &g, int numReg) {
     //getting vertices that we will work with
     auto vertices = g.getVertexSet();
 
+    /*
     //reset all allocations, in case they were not done before or whatever; better safe than sorry
     for (auto v: vertices) {
         Web &w = v->getInfo();
         w.assignedRegister = -1;
+    }*/
+
+    //resetting allocations
+    for (auto v : vertices) {
+        if (v->getInfo().assignedRegister != -2) v->getInfo().assignedRegister = -1;
     }
 
     //Greedy interation over each vertex
     for (auto vertex : vertices) {
+        //skipping spilled nodes
+        if (vertex->getInfo().assignedRegister == -2) continue;
+
         set<int> usedReg;//an empty list fr the current vertex
 
         //every edge connected to the vertex
@@ -49,9 +67,7 @@ bool regAlloc::baseAllocation(Graph<Web> &g, int numReg) {
 
             //if the connectedEdge is already assigned an int, we will use a different one than that
             //cuz they overlap, so different registers
-            if (connectedEdgeReg != -1) {
-                usedReg.insert(connectedEdgeReg);
-            }
+            if (connectedEdgeReg > 0) { usedReg.insert(connectedEdgeReg); }
         }
         //till here we find the registers we cannot assign to a specific vertex
         //can find the best suited reg, by assigning it the first number starting
@@ -69,6 +85,8 @@ bool regAlloc::baseAllocation(Graph<Web> &g, int numReg) {
 
         //if no regs free, then the basic doesn't apply and funtion fails
         if (assign==-1) {return false;}
+
+        vertex->getInfo().assignedRegister = assign;
     }
     //else the function works trough all of it and return true
     return true;
@@ -103,18 +121,18 @@ void regAlloc::splitting(Graph<Web> &g, int numReg, int maxSplitting, int &count
         if (!v) return;
 
         /*splitting logic*/
-        Web &prevWeb = v->getInfo();
+        Web &prevWebCopy = v->getInfo();
 
         //make sure the web has more than points
-        if (prevWeb.progPoints.size() <= 1) {
-            prevWeb.assignedRegister = -2; continue;
+        if (prevWebCopy.progPoints.size() <= 1) {
+            prevWebCopy.assignedRegister = -2; continue;
         }
 
         //divide the points by 2
         set<int> partA, partB;
-        int mid = prevWeb.progPoints.size()/2;
+        int mid = prevWebCopy.progPoints.size()/2;
         int i = 0;
-        for (int p : prevWeb.progPoints) {
+        for (int p : prevWebCopy.progPoints) {
             if (i < mid) partA.insert(p);
             else partB.insert(p);
             i++;
@@ -123,27 +141,28 @@ void regAlloc::splitting(Graph<Web> &g, int numReg, int maxSplitting, int &count
         //we need a new web of partB
         Web splitWeb;
         splitWeb.id = g.getNumVertex()+1;
-        splitWeb.varName = prevWeb.varName+"2";
+        splitWeb.varName = prevWebCopy.varName+"2";
         splitWeb.progPoints = partB;
         splitWeb.assignedRegister = -1;
 
         //replace the part/vertex with partA
-        prevWeb.progPoints = partA;
+        v->getInfo().progPoints = partA;
 
         //adding the new web/vertex to the graph
         g.addVertex(splitWeb);
+        Vertex<Web>* ogVertex = g.findVertex(prevWebCopy);
         Vertex<Web>* newVertex = g.findVertex(splitWeb);
 
         //re-doing interference edges with the new web system
         /*using websInterfere from createGraph.cpp*/
         auto allVertices = g.getVertexSet();
         for (auto vertex : allVertices) {
-            if (vertex == v || vertex == newVertex) continue;
+            if (vertex == ogVertex || vertex == newVertex) continue;
             //since newVertex already has the splitWeb and it cannot have the original Vetrex beore split
             //for partA
-            if (createGraph::WebsInterfere(v->getInfo(), vertex->getInfo())) {
-                g.addFlowEdge(v->getInfo(), vertex->getInfo(), 1);
-                g.addFlowEdge(vertex->getInfo(), v->getInfo(), 1);
+            if (createGraph::WebsInterfere(ogVertex->getInfo(), vertex->getInfo())) {
+                g.addFlowEdge(ogVertex->getInfo(), vertex->getInfo(), 1);
+                g.addFlowEdge(vertex->getInfo(), ogVertex->getInfo(), 1);
             }
             //for partB
             if (createGraph::WebsInterfere(newVertex->getInfo(), vertex->getInfo())) {
@@ -153,9 +172,9 @@ void regAlloc::splitting(Graph<Web> &g, int numReg, int maxSplitting, int &count
         }
 
         //web interference between the two new parts
-        if (createGraph::WebsInterfere(newVertex->getInfo(), v->getInfo())) {
-            g.addFlowEdge(newVertex->getInfo(), v->getInfo(), 1);
-            g.addFlowEdge(v->getInfo(), newVertex->getInfo(), 1);
+        if (createGraph::WebsInterfere(newVertex->getInfo(), ogVertex->getInfo())) {
+            g.addFlowEdge(newVertex->getInfo(), ogVertex->getInfo(), 1);
+            g.addFlowEdge(ogVertex->getInfo(), newVertex->getInfo(), 1);
         }
         countSplit++;
 

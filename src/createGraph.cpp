@@ -4,13 +4,15 @@
 
 #include "createGraph.h"
 #include "graph.h"
-#include <cstring>
 #include <algorithm>
 
 using namespace std;
 
 
 bool createGraph::WebsInterfere(const Web &w1, const Web &w2) {
+    //optimization, making sure to iterate over the smaller program points
+    if (w1.progPoints.size() > w2.progPoints.size()) { return WebsInterfere(w2, w1); }
+
     //search anything common
     for (int point : w1.progPoints) {
         if (w2.progPoints.count(point) > 0) {

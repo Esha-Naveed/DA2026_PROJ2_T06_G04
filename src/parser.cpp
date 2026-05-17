@@ -8,6 +8,8 @@
 #include <iostream>
 #include <algorithm>
 
+#include "webProcessing.h"
+
 using namespace std;
 
 string cleanLine(string line) {
@@ -87,6 +89,7 @@ bool parseRangesFile(ProjData &data) {
         range.endsWith = false;
 
         while (getline(ss, token, ',')) {
+            token.erase(remove_if(token.begin(), token.end(), ::isspace), token.end());
             if (token.empty()) continue;
 
             // check flags
@@ -97,20 +100,22 @@ bool parseRangesFile(ProjData &data) {
                 range.endsWith = true;
                 token.pop_back();
             }
-
-            range.lines.push_back(stoi(token));
+            if (!token.empty()) {
+                range.lines.push_back(stoi(token));
+            }
         }
-
         if (!range.lines.empty()) {
             temporaryRanges.push_back(range);
         }
     }
 
     // process temporary list of individual ranges and group them into Webs
-    mergeRangesIntoWebs(temporaryRanges, data);
+    //mergeRangesIntoWebs(temporaryRanges, data);
+    webProcessing::buildWebs(temporaryRanges, data);
     return true;
 }
 
+/*
 void mergeRangesIntoWebs(const std::vector<LiveRange> &rawRanges, ProjData &data) {
     int webIdCounter = 0;
 
@@ -164,5 +169,4 @@ void mergeRangesIntoWebs(const std::vector<LiveRange> &rawRanges, ProjData &data
             data.allWebs[newWeb.id] = newWeb;
         }
     }
-}
-
+}*/
