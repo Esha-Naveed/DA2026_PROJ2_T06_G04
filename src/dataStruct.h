@@ -30,7 +30,7 @@ struct ProjData {
 
     // settings for algorithms
     int numReg = 0;
-    std::string algorithmType; // basic, spilling, splitting
+    std::string algorithmType; // basic, spilling, splitting, custom
     int algoParam = 0; // k for spilling and splitting
 
     // parsed data

@@ -8,6 +8,7 @@
 #include "dataStruct.h"
 
 void displayMenu();
+void promptOutputFile(ProjData &data);
 void handleInteractiveMode(ProjData& data);
 
 
