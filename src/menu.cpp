@@ -10,6 +10,8 @@
 #include "regAlloc.h"
 #include "dataStruct.h"
 #include "graph.h"
+#include "createGraph.h"
+#include "output_file.h"
 
 using namespace std;
 
@@ -38,6 +40,8 @@ void promptOutputFile(ProjData& data) {
 
 void handleInteractiveMode(ProjData& data) {
     int choice = -1;
+    Graph<Web> g;
+    bool graphBuilt = false;
     while (choice != 0) {
         displayMenu();
         if (!(cin >> choice)) {
@@ -71,6 +75,7 @@ void handleInteractiveMode(ProjData& data) {
                 // parser(data);
                 if (parseRegsFile(data) && parseRangesFile(data)) {
                     cout << "[Success] Data loaded cleanly. Found " << data.allWebs.size() << " variable webs." << endl;
+                    graphBuilt = false;
                 } else {
                     cout << "[Warning] Error parsing inputs. Please check file paths." << endl;
                 }
@@ -78,30 +83,35 @@ void handleInteractiveMode(ProjData& data) {
             }
             case 2:
                 // build interference graph
+                g = createGraph::buildGraph(data);
+                graphBuilt = true;
+                cout << "[Success] Graph built." << endl;
                 break;
             case 3:
-                if (data.rangesFile.empty()) {
-                    cout << "Error: Ranges file path is empty." << endl;
+                if (!graphBuilt) {
+                    cout << "[Error]" << endl;
                     break;
                 }
-                else if (data.regsFile.empty()) {
-                    cout << "Error: Registers file path is empty." << endl;
-                    break;
-                }
-                else if (regAlloc::baseAllocation(g, data.numReg)) {
+
+                if (regAlloc::baseAllocation(g, data.numReg)) {
                     cout << "Success!" << endl;
-                }
-                else {
+                } else {
                     cout << "Error. Requires Splitting or Spilling" << endl;
                 }
+
                 cout << "Enter output file path: ";
                 cin >> data.outputFile;
                 data.algorithmType = "basic";
 
                 // run basic coloring
+                output_file::createOutputFile(data.outputFile, g, data.numReg);
                 break;
-            }
+
             case 4: {
+                if (!graphBuilt) {
+                    cout << "[Error]" << endl;
+                    break;
+                }
                 promptOutputFile(data);
 
                 int k;
@@ -109,10 +119,17 @@ void handleInteractiveMode(ProjData& data) {
                 cin >> k;
                 data.algoParam = k;
                 data.algorithmType = "spilling";
-                // call spillinh function
+
+                // call spilling function
+                regAlloc::spilling(g, data.numReg, data.algoParam);
+                output_file::createOutputFile(data.outputFile, g, data.numReg);
                 break;
             }
             case 5: {
+                if (!graphBuilt) {
+                    cout << "[Error]" << endl;
+                    break;
+                }
                 promptOutputFile(data);
 
                 int k;
@@ -121,13 +138,14 @@ void handleInteractiveMode(ProjData& data) {
                 data.algoParam = k;
                 data.algorithmType = "splitting";
                 // call splitting function
+                int countSplit = 0;
+                regAlloc::splitting(g, data.numReg, data.algoParam, countSplit);
+                output_file::createOutputFile(data.outputFile, g, data.numReg);
                 break;
             }
             case 6:
                 promptOutputFile(data);
-
                 data.algorithmType = "custom";
-
                 // our own approach
                 break;
             case 0:

@@ -18,7 +18,7 @@ Vertex<Web>* regAlloc::findMaxDegree(Graph<Web>& g) {
 
     for (auto vertex : vertices) {
         //skipping already done webs
-        if (vertex->getInfo().assignedRegister != -2) continue;
+        if (vertex->getInfo().assignedRegister == -2) continue;
 
         ////counting only the non-spilled adj
         size_t activeEdges = 0;
@@ -26,10 +26,9 @@ Vertex<Web>* regAlloc::findMaxDegree(Graph<Web>& g) {
             if (edge->getDest()->getInfo().assignedRegister != -2) activeEdges++;
         }
 
-        if (valid || activeEdges > maxEdges) {
+        if (!maxNode || activeEdges > maxEdges) {
             maxEdges = activeEdges;
             maxNode = vertex;
-            valid = false;
         }
     }
     return maxNode;
