@@ -43,6 +43,7 @@ void runBatchMode(int argc, char* argv[], ProjData& data) {
         int countSplit = 0;
         regAlloc::splitting(g, data.numReg, data.algoParam, countSplit);
     }
+    else if (data.algorithmType == "custom") regAlloc::customAllocation(g, data.numReg);
 
     // 4. outputData (outputFile, data);
     output_file::createOutputFile(data.outputFile, g, data.numReg);

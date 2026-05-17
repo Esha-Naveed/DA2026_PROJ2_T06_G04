@@ -7,6 +7,7 @@
 #include "regAlloc.h"
 #include <algorithm>
 #include "createGraph.h"
+#include <stack>
 using namespace std;
 
 Vertex<Web>* regAlloc::findMaxDegree(Graph<Web>& g) {
@@ -187,4 +188,84 @@ void regAlloc::splitting(Graph<Web> &g, int numReg, int maxSplitting, int &count
          * first loop, to backtrack the 'return' is important to finish off the working loop
          */
     }
+}
+
+//using stacks
+bool regAlloc::customAllocation(Graph<Web>& g, int numReg) {
+    auto vertices = g.getVertexSet();
+    //reset all allocation
+    for (auto v: vertices) v->getInfo().assignedRegister = -1;
+
+    stack<Vertex<Web>*> colorStack;
+    set<Vertex<Web>*> removedV;
+
+    bool working = true;
+    while (removedV.size() < vertices.size() && working) {
+        working = false;
+        for (auto v: vertices) {
+            if (removedV.count(v)) continue;
+
+            //counting active adj v
+            int activeEdgeReg = 0;
+            for (auto edge: v->getAdj()) {
+                if (removedV.count(edge->getDest()) == 0) activeEdgeReg++;
+            }
+
+            if (activeEdgeReg < numReg) {
+                colorStack.push(v);
+                removedV.insert(v);
+                working = true;
+            }
+        }
+
+        //if blocked, node pushed
+        if (!working && removedV.size() < vertices.size()) {
+            Vertex<Web>* spillVertex = nullptr;
+            int maxDgree = -1;
+
+            for (auto v: vertices) {
+                if (removedV.count(v)) continue;
+                int activeEdgeReg = 0;
+                for (auto edge: v->getAdj()) {
+                    if (removedV.count(edge->getDest()) == 0) activeEdgeReg++;
+                }
+                if (activeEdgeReg > maxDgree) {
+                    maxDgree = activeEdgeReg;
+                    spillVertex = v;
+                }
+            }
+            if (spillVertex) {
+                colorStack.push(spillVertex);
+                removedV.insert(spillVertex);
+                working = true;
+            }
+        }
+    }
+    bool success = true;
+    while (!colorStack.empty()) {
+        auto v = colorStack.top();
+        colorStack.pop();
+
+        set<int> usedReg;
+        for (auto edge : v->getAdj()) {
+            int adjReg = edge->getDest()->getInfo().assignedRegister;
+            if (adjReg >= 0) usedReg.insert(adjReg);
+        }
+
+        int selectedReg = -1;
+        for (int i=0; i<numReg; i++) {
+            if (usedReg.count(i)==0) {
+                selectedReg = i;
+                break;
+            }
+        }
+
+        if (selectedReg == -1) v->getInfo().assignedRegister = selectedReg;
+        else {
+            v->getInfo().assignedRegister = -2;
+            success = false;
+        }
+    }
+
+    return success;
 }

@@ -18,6 +18,8 @@ public:
     static void splitting(Graph<Web>& g, int numReg, int maxSplitting, int &countSplit);
 
     static Vertex<Web>* findMaxDegree(Graph<Web>& g);
+
+    static bool customAllocation(Graph<Web>& g, int numReg);
 };
 
 

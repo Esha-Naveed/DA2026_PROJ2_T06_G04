@@ -144,9 +144,19 @@ void handleInteractiveMode(ProjData& data) {
                 break;
             }
             case 6:
+                if (!graphBuilt) {
+                    cout << "[Error]" << endl;
+                    break;
+                }
                 promptOutputFile(data);
                 data.algorithmType = "custom";
                 // our own approach
+                cout << "[Processing]" << endl;
+
+                if (regAlloc::customAllocation(g, data.numReg)) cout << "[Success]" << endl;
+                else cout << "[Failed]" << endl;
+
+                output_file::createOutputFile(data.outputFile, g, data.numReg);
                 break;
             case 0:
                 cout << "Exiting..." << endl;

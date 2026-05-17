@@ -23,7 +23,7 @@ string cleanLine(string line) {
 bool parseRegsFile(ProjData &data) {
     ifstream file(data.regsFile);
     if (!file.is_open()) {
-        cerr << "[Error] Failed to open registers file" << data.regsFile << endl;
+        cout << "[Error] Failed to open registers file" << data.regsFile << endl;
         return false;
     }
 
