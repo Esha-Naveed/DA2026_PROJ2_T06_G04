@@ -1,0 +1,74 @@
+\doxysection{src/\+parser.cpp File Reference}
+\hypertarget{parser_8cpp}{}\label{parser_8cpp}\index{src/parser.cpp@{src/parser.cpp}}
+
+
+Implementation of file parsing and greedy live-\/range web merging.  
+
+
+{\ttfamily \+\#include "{}parser.\+h"{}}\newline
+{\ttfamily \+\#include $<$fstream$>$}\newline
+{\ttfamily \+\#include $<$sstream$>$}\newline
+{\ttfamily \+\#include $<$iostream$>$}\newline
+{\ttfamily \+\#include $<$algorithm$>$}\newline
+{\ttfamily \+\#include "{}web\+Processing.\+h"{}}\newline
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+string \doxymbox{\hyperlink{parser_8cpp_a4e141bc9b161be775c02fe1acda5ac6d}{clean\+Line}} (string line)
+\item 
+bool \doxymbox{\hyperlink{parser_8cpp_a58d782c76bceccd3369dc587678ab127}{parse\+Regs\+File}} (\doxymbox{\hyperlink{struct_proj_data}{Proj\+Data}} \&data)
+\begin{DoxyCompactList}\small\item\em Parses the registers configuration file. \end{DoxyCompactList}\item 
+bool \doxymbox{\hyperlink{parser_8cpp_a12e27270df2d83f5155ec4dcfb85e1c2}{parse\+Ranges\+File}} (\doxymbox{\hyperlink{struct_proj_data}{Proj\+Data}} \&data)
+\begin{DoxyCompactList}\small\item\em Parses the live ranges file and initiates \doxylink{struct_web}{Web} building. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Implementation of file parsing and greedy live-\/range web merging. 
+
+
+
+\label{doc-func-members}
+\Hypertarget{parser_8cpp_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{parser_8cpp_a4e141bc9b161be775c02fe1acda5ac6d}\index{parser.cpp@{parser.cpp}!cleanLine@{cleanLine}}
+\index{cleanLine@{cleanLine}!parser.cpp@{parser.cpp}}
+\doxysubsubsection{\texorpdfstring{cleanLine()}{cleanLine()}}
+{\footnotesize\ttfamily \label{parser_8cpp_a4e141bc9b161be775c02fe1acda5ac6d} 
+string clean\+Line (\begin{DoxyParamCaption}\item[{string}]{line}{}\end{DoxyParamCaption})}
+
+\Hypertarget{parser_8cpp_a12e27270df2d83f5155ec4dcfb85e1c2}\index{parser.cpp@{parser.cpp}!parseRangesFile@{parseRangesFile}}
+\index{parseRangesFile@{parseRangesFile}!parser.cpp@{parser.cpp}}
+\doxysubsubsection{\texorpdfstring{parseRangesFile()}{parseRangesFile()}}
+{\footnotesize\ttfamily \label{parser_8cpp_a12e27270df2d83f5155ec4dcfb85e1c2} 
+bool parse\+Ranges\+File (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{struct_proj_data}{Proj\+Data}} \&}]{data}{}\end{DoxyParamCaption})}
+
+
+
+Parses the live ranges file and initiates \doxylink{struct_web}{Web} building. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em data} & Reference to the global project data repository. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if parsing succeeds, false otherwise. 
+\end{DoxyReturn}
+\Hypertarget{parser_8cpp_a58d782c76bceccd3369dc587678ab127}\index{parser.cpp@{parser.cpp}!parseRegsFile@{parseRegsFile}}
+\index{parseRegsFile@{parseRegsFile}!parser.cpp@{parser.cpp}}
+\doxysubsubsection{\texorpdfstring{parseRegsFile()}{parseRegsFile()}}
+{\footnotesize\ttfamily \label{parser_8cpp_a58d782c76bceccd3369dc587678ab127} 
+bool parse\+Regs\+File (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{struct_proj_data}{Proj\+Data}} \&}]{data}{}\end{DoxyParamCaption})}
+
+
+
+Parses the registers configuration file. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em data} & Reference to the global project data repository. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if parsing succeeds, false otherwise. 
+\end{DoxyReturn}

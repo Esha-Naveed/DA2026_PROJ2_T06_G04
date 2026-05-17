@@ -61,6 +61,21 @@ public:
      */
     static Vertex<Web>* findMaxDegree(Graph<Web>& g);
 
+    /**
+     * @brief Executes a stack-based Kempe/Chaitin graph coloring register allocation heuristic.
+     * @details Implements a dual-phase optimization:
+     * 1. Simplification/Spill Phase: Iteratively removes vertices with an active degree less than numReg
+     * and pushes them onto an execution stack. If a deadlock occurs, a potential spill node is selected
+     * using a maximum degree heuristic.
+     * 2. Selection/Coloring Phase: Pops vertices off the stack and assigns the lowest available register index,
+     * marking uncolorable nodes as spilled (-2).
+     * @timecomplexity O(V^2 + V * E) where V is the total number of vertices and E is the edge density,
+     * driven by repeated active adjacency degree evaluation scans under state blocks.
+     * @spacecomplexity O(V) to maintain the local LIFO reconstruction stack and unique removed vertex set tracking logs.
+     * @param g Reference to the active web interference graph structure.
+     * @param numReg Total number of physical hardware registers allocated to the compiler architecture limit.
+     * @return true if the graph was perfectly colored with zero spills; false if any node had to be spilled to memory.
+     */
     static bool customAllocation(Graph<Web>& g, int numReg);
 };
 

@@ -1,0 +1,56 @@
+\doxysection{data\+Struct.\+h}
+\hypertarget{data_struct_8h_source}{}\label{data_struct_8h_source}\index{src/dataStruct.h@{src/dataStruct.h}}
+\doxymbox{\hyperlink{data_struct_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{//}}
+\DoxyCodeLine{00002\ \textcolor{comment}{//\ Created\ by\ Clara\ Correia\ on\ 15/05/2026.}}
+\DoxyCodeLine{00003\ \textcolor{comment}{//}}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#ifndef\ DA2026\_PROJ2\_T06\_G04\_DATASTRUCT\_H}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#define\ DA2026\_PROJ2\_T06\_G04\_DATASTRUCT\_H}}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#include\ <set>}}
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#include\ <map>}}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00023\ \textcolor{keyword}{struct\ }\doxymbox{\hyperlink{struct_web}{Web}}\ \{}
+\DoxyCodeLine{00024\ \ \ \ \ \textcolor{keywordtype}{int}\ \doxymbox{\hyperlink{struct_web_af59e2bcb1907d91a75a5d2598e0eb1b6}{id}};}
+\DoxyCodeLine{00025\ \ \ \ \ std::string\ \doxymbox{\hyperlink{struct_web_a864d30608851a4e2e7ecd1aa39cb4304}{varName}};}
+\DoxyCodeLine{00026\ \ \ \ \ std::set<int>\ \doxymbox{\hyperlink{struct_web_a599e547b938b7a933bc40e51ccd50529}{progPoints}};\ \textcolor{comment}{//\ all\ lines\ where\ this\ web\ is\ alive}}
+\DoxyCodeLine{00027\ \ \ \ \ \textcolor{keywordtype}{int}\ \doxymbox{\hyperlink{struct_web_a2acb6cdba4709c8389b608dfd0b3ba1a}{assignedRegister}}\ =\ -\/1;}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \ \ \ \ \textcolor{comment}{//\ finding\ specific\ webs}}
+\DoxyCodeLine{00030\ \ \ \ \ \textcolor{keywordtype}{bool}\ \doxymbox{\hyperlink{struct_web_a16da476f833dbef76518e40b369ae39e}{operator==}}(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{struct_web}{Web}}\&\ other)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ this-\/>\textcolor{keywordtype}{id}\ ==\ other.\doxymbox{\hyperlink{struct_web_af59e2bcb1907d91a75a5d2598e0eb1b6}{id}};}
+\DoxyCodeLine{00032\ \ \ \ \ \}}
+\DoxyCodeLine{00033\ \};}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00038\ \textcolor{keyword}{struct\ }\doxymbox{\hyperlink{struct_proj_data}{ProjData}}\ \{}
+\DoxyCodeLine{00039\ \ \ \ \ \textcolor{comment}{//\ file\ paths}}
+\DoxyCodeLine{00040\ \ \ \ \ std::string\ \doxymbox{\hyperlink{struct_proj_data_a6604fdd8c1b6e0019806a58db76a86a5}{rangesFile}};}
+\DoxyCodeLine{00041\ \ \ \ \ std::string\ \doxymbox{\hyperlink{struct_proj_data_a934035dca4716aada9b6f98cb5d0f034}{regsFile}};}
+\DoxyCodeLine{00042\ \ \ \ \ std::string\ \doxymbox{\hyperlink{struct_proj_data_a0ecdd7cf03fb27e629cdf0c22a7124ae}{outputFile}};}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00044\ \ \ \ \ \textcolor{comment}{//\ settings\ for\ algorithms}}
+\DoxyCodeLine{00045\ \ \ \ \ \textcolor{keywordtype}{int}\ \doxymbox{\hyperlink{struct_proj_data_afd2200ebf94a1b7cc163cf1594b0992b}{numReg}}\ =\ 0;}
+\DoxyCodeLine{00046\ \ \ \ \ std::string\ \doxymbox{\hyperlink{struct_proj_data_a3a3c68d8723b5bb441755c106643251b}{algorithmType}};\ \textcolor{comment}{//\ basic,\ spilling,\ splitting,\ custom}}
+\DoxyCodeLine{00047\ \ \ \ \ \textcolor{keywordtype}{int}\ \doxymbox{\hyperlink{struct_proj_data_a3f93e42c111b4a3b8368c585c077631c}{algoParam}}\ =\ 0;\ \textcolor{comment}{//\ k\ for\ spilling\ and\ splitting}}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00049\ \ \ \ \ \textcolor{comment}{//\ parsed\ data}}
+\DoxyCodeLine{00050\ \ \ \ \ std::map<int,\ Web>\ \doxymbox{\hyperlink{struct_proj_data_ad321c46abb76571f9d30134f7dc1ee44}{allWebs}};}
+\DoxyCodeLine{00051\ \};}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00056\ \textcolor{keyword}{struct\ }\doxymbox{\hyperlink{struct_live_range}{LiveRange}}\ \{}
+\DoxyCodeLine{00057\ \ \ \ \ std::string\ \doxymbox{\hyperlink{struct_live_range_a922c82dd644c92249651fe99d56956b0}{varName}};}
+\DoxyCodeLine{00058\ \ \ \ \ std::vector<int>\ \doxymbox{\hyperlink{struct_live_range_a123edd76f7cd5f57ecd4a90c1080263f}{lines}};}
+\DoxyCodeLine{00059\ \ \ \ \ \textcolor{keywordtype}{bool}\ \doxymbox{\hyperlink{struct_live_range_a67a2040e7068855acaaa984d09a7b387}{startsWith}};\ \textcolor{comment}{//\ +}}
+\DoxyCodeLine{00060\ \ \ \ \ \textcolor{keywordtype}{bool}\ \doxymbox{\hyperlink{struct_live_range_ab68e5be60b687f1804a6fcaec09f4fee}{endsWith}};\ \textcolor{comment}{//\ -\/}}
+\DoxyCodeLine{00061\ \};}
+\DoxyCodeLine{00062\ }
+\DoxyCodeLine{00063\ \textcolor{comment}{//\ class\ InterferenceGraph\ :\ public\ Graph<Web>\ \{\};}}
+\DoxyCodeLine{00064\ }
+\DoxyCodeLine{00065\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//DA2026\_PROJ2\_T06\_G04\_DATASTRUCT\_H}}
+
+\end{DoxyCode}

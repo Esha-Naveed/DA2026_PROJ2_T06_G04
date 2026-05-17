@@ -1,0 +1,80 @@
+\doxysection{src/\+parser.h File Reference}
+\hypertarget{parser_8h}{}\label{parser_8h}\index{src/parser.h@{src/parser.h}}
+
+
+Function declarations for reading and processing input files.  
+
+
+{\ttfamily \+\#include "{}data\+Struct.\+h"{}}\newline
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \doxymbox{\hyperlink{parser_8h_a58d782c76bceccd3369dc587678ab127}{parse\+Regs\+File}} (\doxymbox{\hyperlink{struct_proj_data}{Proj\+Data}} \&data)
+\begin{DoxyCompactList}\small\item\em Parses the registers configuration file. \end{DoxyCompactList}\item 
+bool \doxymbox{\hyperlink{parser_8h_a12e27270df2d83f5155ec4dcfb85e1c2}{parse\+Ranges\+File}} (\doxymbox{\hyperlink{struct_proj_data}{Proj\+Data}} \&data)
+\begin{DoxyCompactList}\small\item\em Parses the live ranges file and initiates \doxylink{struct_web}{Web} building. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{parser_8h_a6f4281cae23434d787b935445c613c97}{merge\+Ranges\+Into\+Webs}} (const std::\+vector$<$ \doxymbox{\hyperlink{struct_live_range}{Live\+Range}} $>$ \&raw\+Ranges, \doxymbox{\hyperlink{struct_proj_data}{Proj\+Data}} \&data)
+\begin{DoxyCompactList}\small\item\em Groups raw sequential live ranges into consolidated \doxylink{struct_web}{Web} entities based on overlap. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Function declarations for reading and processing input files. 
+
+
+
+\label{doc-func-members}
+\Hypertarget{parser_8h_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{parser_8h_a6f4281cae23434d787b935445c613c97}\index{parser.h@{parser.h}!mergeRangesIntoWebs@{mergeRangesIntoWebs}}
+\index{mergeRangesIntoWebs@{mergeRangesIntoWebs}!parser.h@{parser.h}}
+\doxysubsubsection{\texorpdfstring{mergeRangesIntoWebs()}{mergeRangesIntoWebs()}}
+{\footnotesize\ttfamily \label{parser_8h_a6f4281cae23434d787b935445c613c97} 
+void merge\+Ranges\+Into\+Webs (\begin{DoxyParamCaption}\item[{const std::\+vector$<$ \doxymbox{\hyperlink{struct_live_range}{Live\+Range}} $>$ \&}]{raw\+Ranges}{, }\item[{\doxymbox{\hyperlink{struct_proj_data}{Proj\+Data}} \&}]{data}{}\end{DoxyParamCaption})}
+
+
+
+Groups raw sequential live ranges into consolidated \doxylink{struct_web}{Web} entities based on overlap. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em raw\+Ranges} & The raw list of live ranges parsed from the file. \\
+\hline
+{\em data} & Reference to the global project data repository where webs are saved. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{parser_8h_a12e27270df2d83f5155ec4dcfb85e1c2}\index{parser.h@{parser.h}!parseRangesFile@{parseRangesFile}}
+\index{parseRangesFile@{parseRangesFile}!parser.h@{parser.h}}
+\doxysubsubsection{\texorpdfstring{parseRangesFile()}{parseRangesFile()}}
+{\footnotesize\ttfamily \label{parser_8h_a12e27270df2d83f5155ec4dcfb85e1c2} 
+bool parse\+Ranges\+File (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{struct_proj_data}{Proj\+Data}} \&}]{data}{}\end{DoxyParamCaption})}
+
+
+
+Parses the live ranges file and initiates \doxylink{struct_web}{Web} building. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em data} & Reference to the global project data repository. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if parsing succeeds, false otherwise. 
+\end{DoxyReturn}
+\Hypertarget{parser_8h_a58d782c76bceccd3369dc587678ab127}\index{parser.h@{parser.h}!parseRegsFile@{parseRegsFile}}
+\index{parseRegsFile@{parseRegsFile}!parser.h@{parser.h}}
+\doxysubsubsection{\texorpdfstring{parseRegsFile()}{parseRegsFile()}}
+{\footnotesize\ttfamily \label{parser_8h_a58d782c76bceccd3369dc587678ab127} 
+bool parse\+Regs\+File (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{struct_proj_data}{Proj\+Data}} \&}]{data}{}\end{DoxyParamCaption})}
+
+
+
+Parses the registers configuration file. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em data} & Reference to the global project data repository. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if parsing succeeds, false otherwise. 
+\end{DoxyReturn}

@@ -1,0 +1,47 @@
+\doxysection{web\+Processing Class Reference}
+\hypertarget{classweb_processing}{}\label{classweb_processing}\index{webProcessing@{webProcessing}}
+
+
+Handles structural analysis pipelines that collapse raw execution intervals into distinct \doxylink{struct_web}{Web} objects.  
+
+
+
+
+{\ttfamily \+\#include $<$web\+Processing.\+h$>$}
+
+\doxysubsubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static void \doxymbox{\hyperlink{classweb_processing_a09e580d785588dff952099fdc6f0bd05}{build\+Webs}} (const std::\+vector$<$ \doxymbox{\hyperlink{struct_live_range}{Live\+Range}} $>$ \&ranges, \doxymbox{\hyperlink{struct_proj_data}{Proj\+Data}} \&proj\+Data)
+\begin{DoxyCompactList}\small\item\em Traverses sequential live ranges, maps overlaps belonging to identical variables, and compiles webs. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Handles structural analysis pipelines that collapse raw execution intervals into distinct \doxylink{struct_web}{Web} objects. 
+
+\label{doc-func-members}
+\Hypertarget{classweb_processing_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classweb_processing_a09e580d785588dff952099fdc6f0bd05}\index{webProcessing@{webProcessing}!buildWebs@{buildWebs}}
+\index{buildWebs@{buildWebs}!webProcessing@{webProcessing}}
+\doxysubsubsection{\texorpdfstring{buildWebs()}{buildWebs()}}
+{\footnotesize\ttfamily \label{classweb_processing_a09e580d785588dff952099fdc6f0bd05} 
+void web\+Processing::\+build\+Webs (\begin{DoxyParamCaption}\item[{const std::\+vector$<$ \doxymbox{\hyperlink{struct_live_range}{Live\+Range}} $>$ \&}]{ranges}{, }\item[{\doxymbox{\hyperlink{struct_proj_data}{Proj\+Data}} \&}]{proj\+Data}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Traverses sequential live ranges, maps overlaps belonging to identical variables, and compiles webs. 
+
+Clears pre-\/existing tracking records to avoid mutation artifacts, groups intervals per variable, and performs sub-\/interval intersection merges to produce isolated variable webs. @timecomplexity O(\+N \texorpdfstring{$\ast$}{*} R \texorpdfstring{$\ast$}{*} L) where N is unique variables, R is raw range instances per variable, \texorpdfstring{$\ast$}{*} and L is the element lookups/\+insertions inside the standard library tracking sets. @spacecomplexity O(\+M) auxiliary space to construct the structural sets and sorting buckets. 
+\begin{DoxyParams}{Parameters}
+{\em ranges} & Vector listing sequential raw live ranges extracted from execution logs. \\
+\hline
+{\em data} & Reference to the global project repository where the generated webs are saved. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files:\+\begin{DoxyCompactItemize}
+\item 
+src/\+\doxymbox{\hyperlink{web_processing_8h}{web\+Processing.\+h}}\item 
+src/\+\doxymbox{\hyperlink{web_processing_8cpp}{web\+Processing.\+cpp}}\end{DoxyCompactItemize}

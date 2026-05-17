@@ -6,7 +6,7 @@
  */
 /**
  * @file regAlloc.cpp
- * @brief Implementation of greedy register allocation, spilling, and web splitting metrics.
+ * @brief Implementation of basic greedy register allocation, spilling, web splitting, and custom stack-based coloring algorithm.
  */
 
 #include "regAlloc.h"
