@@ -35,7 +35,7 @@ bool parseRegsFile(ProjData &data) {
 
         if (getline(ss, key, ':')) {
             if (key.find("registers") != string::npos) {
-                ss >> data.regsFile;
+                ss >> data.numReg;
             }
             else if (key.find("algorithm") != string::npos){
                 string algo;
@@ -56,7 +56,7 @@ bool parseRegsFile(ProjData &data) {
 bool parseRangesFile(ProjData &data) {
     ifstream file(data.rangesFile);
     if (!file.is_open()) {
-        cerr << "[Error] Failed to open live ranges file" << data.regsFile << endl;
+        cerr << "[Error] Failed to open live ranges file" << data.rangesFile << endl;
         return false;
     }
 

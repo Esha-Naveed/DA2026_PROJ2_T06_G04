@@ -21,6 +21,17 @@ void displayMenu() {
     cout << "Selection: ";
 }
 
+void promptOutputFile(ProjData& data) {
+    if (!data.outputFile.empty()) return;
+
+    const string OUTPUT_DIR = "basic/basic/output/";
+    string outFilename;
+
+    cout << "Enter output filename: ";
+    cin >> outFilename;
+    data.outputFile = OUTPUT_DIR + outFilename;
+}
+
 void handleInteractiveMode(ProjData& data) {
     int choice = -1;
     while (choice != 0) {
@@ -31,12 +42,27 @@ void handleInteractiveMode(ProjData& data) {
             continue;
         }
 
+        if (choice >= 2 && choice <= 6) {
+            if (data.rangesFile.empty() || data.regsFile.empty()) {
+                cout << "[Error]: load input files first (1.)" << endl;
+                continue;
+            }
+        }
+
         switch (choice) {
-            case 1:
-                cout << "Enter live ranges file path: ";
-                cin >> data.rangesFile;
-                cout << "Enter registers file path: ";
-                cin >> data.regsFile;
+            case 1: {
+                // paths
+                const string RANGES_DIR = "basic/basic/ranges/";
+                const string REGS_DIR = "basic/basic/registers/";
+                string filename;
+
+                cout << "Enter live ranges filename: ";
+                cin >> filename;
+                data.rangesFile = RANGES_DIR + filename;
+
+                cout << "Enter registers filename: ";
+                cin >> filename;
+                data.regsFile = REGS_DIR + filename;
 
                 // parser(data);
                 if (parseRegsFile(data) && parseRangesFile(data)) {
@@ -45,25 +71,20 @@ void handleInteractiveMode(ProjData& data) {
                     cout << "[Warning] Error parsing inputs. Please check file paths." << endl;
                 }
                 break;
+            }
             case 2:
                 // build interference graph
                 break;
-            case 3:
-                if (data.rangesFile.empty()) {
-                    cout << "Error: Ranges file path is empty." << endl;
-                    break;
-                }
-                else if (data.regsFile.empty()) {
-                    cout << "Error: Registers file path is empty." << endl;
-                    break;
-                }
-                cout << "Enter output file path: ";
-                cin >> data.outputFile;
+            case 3: {
+                promptOutputFile(data);
                 data.algorithmType = "basic";
 
                 // run basic coloring
                 break;
+            }
             case 4: {
+                promptOutputFile(data);
+
                 int k;
                 cout << "Enter max number of webs to spill: ";
                 cin >> k;
@@ -73,6 +94,8 @@ void handleInteractiveMode(ProjData& data) {
                 break;
             }
             case 5: {
+                promptOutputFile(data);
+
                 int k;
                 cout << "Enter max number of webs to split: ";
                 cin >> k;
@@ -82,6 +105,10 @@ void handleInteractiveMode(ProjData& data) {
                 break;
             }
             case 6:
+                promptOutputFile(data);
+
+                data.algorithmType = "custom";
+
                 // our own approach
                 break;
             case 0:
