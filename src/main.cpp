@@ -4,7 +4,6 @@
  * else it cals on the menu function in its own file to show the gui and run that.
  */
 
-#include <iostream>
 #include <string>
 #include "menu.h"
 #include "dataStruct.h"
