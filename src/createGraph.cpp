@@ -1,6 +1,10 @@
 //
 // Created by esha-naveed on 5/15/26.
 //
+/**
+* @file createGraph.cpp
+* @brief Implementation of interference graph construction algorithms.
+*/
 
 #include "createGraph.h"
 #include "graph.h"

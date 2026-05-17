@@ -3,6 +3,11 @@
 //
 /*will contain the function to print the gui interface and call specific functions based in the instructions
  */
+/**
+* @file menu.cpp
+* @brief Implementation of the interactive menu interface.
+*/
+
 #include "menu.h"
 #include "parser.h"
 #include <iostream>

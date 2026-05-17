@@ -4,6 +4,11 @@
 /*allocates registers or 'Colors' them
  * contains function of spilling and splitting
  */
+/**
+ * @file regAlloc.cpp
+ * @brief Implementation of greedy register allocation, spilling, and web splitting metrics.
+ */
+
 #include "regAlloc.h"
 #include <algorithm>
 #include "createGraph.h"

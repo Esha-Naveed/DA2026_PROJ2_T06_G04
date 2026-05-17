@@ -3,6 +3,12 @@
 //
 /*looks in the LiveRanges and adds data to data.allWebs*/
 
+/**
+* @file webProcessing.cpp
+* @brief Algorithmic implementation of disjoint interval merging.
+*/
+
+
 #include "webProcessing.h"
 #include <algorithm>
 #include <map>
