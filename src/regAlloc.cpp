@@ -39,13 +39,6 @@ bool regAlloc::baseAllocation(Graph<Web> &g, int numReg) {
     //getting vertices that we will work with
     auto vertices = g.getVertexSet();
 
-    /*
-    //reset all allocations, in case they were not done before or whatever; better safe than sorry
-    for (auto v: vertices) {
-        Web &w = v->getInfo();
-        w.assignedRegister = -1;
-    }*/
-
     stack<Vertex<Web>*> colorStack;
     set<Vertex<Web>*> removedV;
 
