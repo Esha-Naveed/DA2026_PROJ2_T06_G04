@@ -1,0 +1,26 @@
+\doxysection{src/\+data\+Struct.h File Reference}
+\hypertarget{data_struct_8h}{}\label{data_struct_8h}\index{src/dataStruct.h@{src/dataStruct.h}}
+
+
+Global data structures for the project.  
+
+
+{\ttfamily \+\#include $<$string$>$}\newline
+{\ttfamily \+\#include $<$vector$>$}\newline
+{\ttfamily \+\#include $<$set$>$}\newline
+{\ttfamily \+\#include $<$map$>$}\newline
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \doxymbox{\hyperlink{struct_web}{Web}}
+\begin{DoxyCompactList}\small\item\em Represents an interference graph node (a collection of overlapping live ranges). \end{DoxyCompactList}\item 
+struct \doxymbox{\hyperlink{struct_proj_data}{Proj\+Data}}
+\begin{DoxyCompactList}\small\item\em Main repository structure holding the entire program\textquotesingle{}s execution state. \end{DoxyCompactList}\item 
+struct \doxymbox{\hyperlink{struct_live_range}{Live\+Range}}
+\begin{DoxyCompactList}\small\item\em Represents a single raw live range entry read from the file. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Global data structures for the project. 
+
+Defines the core entities (\doxylink{struct_live_range}{Live\+Range}, \doxylink{struct_web}{Web}) and the global configuration data structure (\doxylink{struct_proj_data}{Proj\+Data}) used across the project. 

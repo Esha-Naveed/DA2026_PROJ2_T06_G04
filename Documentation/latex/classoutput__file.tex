@@ -1,0 +1,49 @@
+\doxysection{output\+\_\+file Class Reference}
+\hypertarget{classoutput__file}{}\label{classoutput__file}\index{output\_file@{output\_file}}
+
+
+Class responsible for generating and formatting the final allocation output report.  
+
+
+
+
+{\ttfamily \+\#include $<$output\+\_\+file.\+h$>$}
+
+\doxysubsubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static void \doxymbox{\hyperlink{classoutput__file_ad8dfbfe01763c7af8458ef14e4326293}{create\+Output\+File}} (const string \&file\+Name, \doxymbox{\hyperlink{class_graph}{Graph}}$<$ \doxymbox{\hyperlink{struct_web}{Web}} $>$ \&g, int num\+Reg)
+\begin{DoxyCompactList}\small\item\em Generates a structured log file detailing total webs, associated lines, and register/\+memory mappings. @timecomplexity O(V log V + V \texorpdfstring{$\ast$}{*} P) where V is the number of vertices (webs) being sorted, and P is the average number of program points printed per web. @spacecomplexity O(\+V) auxiliary footprint to copy and manipulate the graph\textquotesingle{}s vertex subset vector. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Class responsible for generating and formatting the final allocation output report. 
+
+\label{doc-func-members}
+\Hypertarget{classoutput__file_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classoutput__file_ad8dfbfe01763c7af8458ef14e4326293}\index{output\_file@{output\_file}!createOutputFile@{createOutputFile}}
+\index{createOutputFile@{createOutputFile}!output\_file@{output\_file}}
+\doxysubsubsection{\texorpdfstring{createOutputFile()}{createOutputFile()}}
+{\footnotesize\ttfamily \label{classoutput__file_ad8dfbfe01763c7af8458ef14e4326293} 
+void output\+\_\+file::\+create\+Output\+File (\begin{DoxyParamCaption}\item[{const string \&}]{file\+Name}{, }\item[{\doxymbox{\hyperlink{class_graph}{Graph}}$<$ \doxymbox{\hyperlink{struct_web}{Web}} $>$ \&}]{g}{, }\item[{int}]{num\+Reg}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Generates a structured log file detailing total webs, associated lines, and register/\+memory mappings. @timecomplexity O(V log V + V \texorpdfstring{$\ast$}{*} P) where V is the number of vertices (webs) being sorted, and P is the average number of program points printed per web. @spacecomplexity O(\+V) auxiliary footprint to copy and manipulate the graph\textquotesingle{}s vertex subset vector. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em file\+Name} & Destination path where the output file will be created. \\
+\hline
+{\em g} & Reference to the completed web interference graph. \\
+\hline
+{\em num\+Reg} & Total number of physical hardware registers available. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files:\+\begin{DoxyCompactItemize}
+\item 
+src/\+\doxymbox{\hyperlink{output__file_8h}{output\+\_\+file.\+h}}\item 
+src/\+\doxymbox{\hyperlink{output__file_8cpp}{output\+\_\+file.\+cpp}}\end{DoxyCompactItemize}

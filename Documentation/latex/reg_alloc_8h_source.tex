@@ -1,0 +1,32 @@
+\doxysection{reg\+Alloc.\+h}
+\hypertarget{reg_alloc_8h_source}{}\label{reg_alloc_8h_source}\index{src/regAlloc.h@{src/regAlloc.h}}
+\doxymbox{\hyperlink{reg_alloc_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{//}}
+\DoxyCodeLine{00002\ \textcolor{comment}{//\ Created\ by\ esha-\/naveed\ on\ 5/16/26.}}
+\DoxyCodeLine{00003\ \textcolor{comment}{//}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#ifndef\ DA2026\_PROJ2\_T06\_G04\_REGALLOC\_H}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#define\ DA2026\_PROJ2\_T06\_G04\_REGALLOC\_H}}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{graph_8h}{graph.h}}"{}}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{data_struct_8h}{dataStruct.h}}"{}}}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00021\ \textcolor{keyword}{class\ }\doxymbox{\hyperlink{classreg_alloc}{regAlloc}}\ \{}
+\DoxyCodeLine{00022\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00031\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ \doxymbox{\hyperlink{classreg_alloc_afb12e75f56db07074de3440ea7fe1bc2}{baseAllocation}}\ (\doxymbox{\hyperlink{class_graph}{Graph<Web>}}\&\ g,\ \textcolor{keywordtype}{int}\ numReg);}
+\DoxyCodeLine{00032\ \ \ \ \ \textcolor{comment}{//bool\ so\ that\ we\ could\ get\ false\ if\ allocNum>numReg,\ and\ true\ if\ done\ successfully}}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00042\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{classreg_alloc_a7d9f8b4273d1c22545ca5878bd9b314d}{spilling}}(\doxymbox{\hyperlink{class_graph}{Graph<Web>}}\&\ g,\ \textcolor{keywordtype}{int}\ numReg,\ \textcolor{keywordtype}{int}\ maxSpilling);}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00053\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{classreg_alloc_af98042f722d270ec55ef3b0e154aa344}{splitting}}(\doxymbox{\hyperlink{class_graph}{Graph<Web>}}\&\ g,\ \textcolor{keywordtype}{int}\ numReg,\ \textcolor{keywordtype}{int}\ maxSplitting,\ \textcolor{keywordtype}{int}\ \&countSplit);}
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00062\ \ \ \ \ \textcolor{keyword}{static}\ \doxymbox{\hyperlink{class_vertex}{Vertex<Web>}}*\ \doxymbox{\hyperlink{classreg_alloc_ac5dc2af70ac17dfd9e04ff13a6ade77e}{findMaxDegree}}(\doxymbox{\hyperlink{class_graph}{Graph<Web>}}\&\ g);}
+\DoxyCodeLine{00063\ }
+\DoxyCodeLine{00079\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ \doxymbox{\hyperlink{classreg_alloc_a8b8e5f74caa592974339b8774e6e5515}{customAllocation}}(\doxymbox{\hyperlink{class_graph}{Graph<Web>}}\&\ g,\ \textcolor{keywordtype}{int}\ numReg);}
+\DoxyCodeLine{00080\ \};}
+\DoxyCodeLine{00081\ }
+\DoxyCodeLine{00082\ }
+\DoxyCodeLine{00083\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//DA2026\_PROJ2\_T06\_G04\_REGALLOC\_H}}
+
+\end{DoxyCode}

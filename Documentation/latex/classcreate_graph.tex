@@ -1,0 +1,70 @@
+\doxysection{create\+Graph Class Reference}
+\hypertarget{classcreate_graph}{}\label{classcreate_graph}\index{createGraph@{createGraph}}
+
+
+Factory class responsible for generating the interference graph from parsed \doxylink{struct_web}{Web} data.  
+
+
+
+
+{\ttfamily \+\#include $<$create\+Graph.\+h$>$}
+
+\doxysubsubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \doxymbox{\hyperlink{class_graph}{Graph}}$<$ \doxymbox{\hyperlink{struct_web}{Web}} $>$ \doxymbox{\hyperlink{classcreate_graph_a6baea2f8075728e06afe342930413cec}{build\+Graph}} (\doxymbox{\hyperlink{struct_proj_data}{Proj\+Data}} \&data)
+\begin{DoxyCompactList}\small\item\em Constructs an interference graph where vertices represent webs and edges represent life overlaps. @timecomplexity O(\+V\texorpdfstring{$^\wedge$}{\string^}2 \texorpdfstring{$\ast$}{*} M \texorpdfstring{$\ast$}{*} log(\+N)) where V is the number of webs, M is the size of the smaller web\textquotesingle{}s program points, and N is the size of the larger web\textquotesingle{}s program points. @spacecomplexity O(V + E) to store the generated vertices and mutual interference edges. \end{DoxyCompactList}\item 
+static bool \doxymbox{\hyperlink{classcreate_graph_ae6e03fd197ca8a0cbd23793a482d805c}{Webs\+Interfere}} (const \doxymbox{\hyperlink{struct_web}{Web}} \&w1, const \doxymbox{\hyperlink{struct_web}{Web}} \&w2)
+\begin{DoxyCompactList}\small\item\em Determines whether two individual webs interfere (share at least one program point line). @timecomplexity O(\+M \texorpdfstring{$\ast$}{*} log(\+N)) where M is the size of the smaller program point set \texorpdfstring{$\ast$}{*} and N is the size of the larger set. @spacecomplexity O(1) Auxiliary space. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Factory class responsible for generating the interference graph from parsed \doxylink{struct_web}{Web} data. 
+
+\label{doc-func-members}
+\Hypertarget{classcreate_graph_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classcreate_graph_a6baea2f8075728e06afe342930413cec}\index{createGraph@{createGraph}!buildGraph@{buildGraph}}
+\index{buildGraph@{buildGraph}!createGraph@{createGraph}}
+\doxysubsubsection{\texorpdfstring{buildGraph()}{buildGraph()}}
+{\footnotesize\ttfamily \label{classcreate_graph_a6baea2f8075728e06afe342930413cec} 
+\doxymbox{\hyperlink{class_graph}{Graph}}$<$ \doxymbox{\hyperlink{struct_web}{Web}} $>$ create\+Graph::\+build\+Graph (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{struct_proj_data}{Proj\+Data}} \&}]{data}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Constructs an interference graph where vertices represent webs and edges represent life overlaps. @timecomplexity O(\+V\texorpdfstring{$^\wedge$}{\string^}2 \texorpdfstring{$\ast$}{*} M \texorpdfstring{$\ast$}{*} log(\+N)) where V is the number of webs, M is the size of the smaller web\textquotesingle{}s program points, and N is the size of the larger web\textquotesingle{}s program points. @spacecomplexity O(V + E) to store the generated vertices and mutual interference edges. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em data} & Reference to the global project data containing all parsed webs. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\doxylink{class_graph}{Graph$<$\+Web$>$} The completely built undirected interference graph. 
+\end{DoxyReturn}
+\Hypertarget{classcreate_graph_ae6e03fd197ca8a0cbd23793a482d805c}\index{createGraph@{createGraph}!WebsInterfere@{WebsInterfere}}
+\index{WebsInterfere@{WebsInterfere}!createGraph@{createGraph}}
+\doxysubsubsection{\texorpdfstring{WebsInterfere()}{WebsInterfere()}}
+{\footnotesize\ttfamily \label{classcreate_graph_ae6e03fd197ca8a0cbd23793a482d805c} 
+bool create\+Graph::\+\+Webs\+Interfere (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{struct_web}{Web}} \&}]{w1}{, }\item[{const \doxymbox{\hyperlink{struct_web}{Web}} \&}]{w2}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Determines whether two individual webs interfere (share at least one program point line). @timecomplexity O(\+M \texorpdfstring{$\ast$}{*} log(\+N)) where M is the size of the smaller program point set \texorpdfstring{$\ast$}{*} and N is the size of the larger set. @spacecomplexity O(1) Auxiliary space. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em w1} & First web to compare. \\
+\hline
+{\em w2} & Second web to compare. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if they share an execution point line, false otherwise. 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files:\+\begin{DoxyCompactItemize}
+\item 
+src/\+\doxymbox{\hyperlink{create_graph_8h}{create\+Graph.\+h}}\item 
+src/\+\doxymbox{\hyperlink{create_graph_8cpp}{create\+Graph.\+cpp}}\end{DoxyCompactItemize}

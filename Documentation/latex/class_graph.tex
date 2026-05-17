@@ -1,0 +1,156 @@
+\doxysection{Graph\texorpdfstring{$<$}{<} T \texorpdfstring{$>$}{>} Class Template Reference}
+\hypertarget{class_graph}{}\label{class_graph}\index{Graph$<$ T $>$@{Graph$<$ T $>$}}
+
+
+Top-\/level storage engine grouping vertex systems and data routing pipelines.  
+
+
+
+
+{\ttfamily \+\#include $<$graph.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\doxymbox{\hyperlink{class_vertex}{Vertex}}$<$ T $>$ \texorpdfstring{$\ast$}{*} \doxymbox{\hyperlink{class_graph_a8b7b7465fbfd562e2a469f90a437ab75}{find\+Vertex}} (const T \&in) const
+\begin{DoxyCompactList}\small\item\em Traverses memory boundaries to locate an existing element vertex. \end{DoxyCompactList}\item 
+bool \doxymbox{\hyperlink{class_graph_a00be284ea2be3b3d0f0d2e493b70245b}{add\+Vertex}} (const T \&in)
+\begin{DoxyCompactList}\small\item\em Adds a new distinct vertex wrapper inside the internal structural repository vector. \end{DoxyCompactList}\item 
+bool \doxymbox{\hyperlink{class_graph_aad98131b6a4b57562d7de30bb795eefb}{add\+Flow\+Edge}} (const T \&source, const T \&dest, double cap)
+\begin{DoxyCompactList}\small\item\em Generates complementary dual flow pathways linking source inputs straight through to targets. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{class_graph_af9edd1a5523525f1c77c8b28871fb439}{reset\+Flow}} ()
+\begin{DoxyCompactList}\small\item\em Resets current flow metrics to zero on all active edge variables. \end{DoxyCompactList}\item 
+int \doxymbox{\hyperlink{class_graph_a0853eac15cdf0f06d63f4b8a7820ec71}{get\+Num\+Vertex}} () const
+\item 
+std::\+vector$<$ \doxymbox{\hyperlink{class_vertex}{Vertex}}$<$ T $>$ \texorpdfstring{$\ast$}{*} $>$ \doxymbox{\hyperlink{class_graph_a41624b03fcb6bd29e4df574a1ec58541}{get\+Vertex\+Set}} () const
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \doxymbox{\hyperlink{class_graph_a676cdfb976eccfa82b631d2094c1cdac}{find\+Vertex\+Idx}} (const T \&in) const
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std::\+vector$<$ \doxymbox{\hyperlink{class_vertex}{Vertex}}$<$ T $>$ \texorpdfstring{$\ast$}{*} $>$ \doxymbox{\hyperlink{class_graph_a26b3a6b9c61f02f5b2cd38ad4c6a4953}{vertex\+Set}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$class T$>$\newline
+class Graph$<$ T $>$}
+Top-\/level storage engine grouping vertex systems and data routing pipelines. 
+
+\label{doc-func-members}
+\Hypertarget{class_graph_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_graph_aad98131b6a4b57562d7de30bb795eefb}\index{Graph$<$ T $>$@{Graph$<$ T $>$}!addFlowEdge@{addFlowEdge}}
+\index{addFlowEdge@{addFlowEdge}!Graph$<$ T $>$@{Graph$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{addFlowEdge()}{addFlowEdge()}}
+{\footnotesize\ttfamily \label{class_graph_aad98131b6a4b57562d7de30bb795eefb} 
+template$<$class T$>$ \\
+bool \doxymbox{\hyperlink{class_graph}{Graph}}$<$ T $>$::\+add\+Flow\+Edge (\begin{DoxyParamCaption}\item[{const T \&}]{source}{, }\item[{const T \&}]{dest}{, }\item[{double}]{cap}{}\end{DoxyParamCaption})}
+
+
+
+Generates complementary dual flow pathways linking source inputs straight through to targets. 
+
+Generates an active forward route containing specific sizing limits matched with a residual reverse pathway holding a capacity scale of zero. 
+\begin{DoxyParams}{Parameters}
+{\em source} & Struct variant initializing the origin zone. \\
+\hline
+{\em dest} & Struct variant initializing the terminal point. \\
+\hline
+{\em cap} & Sizing ceiling capacity boundaries allowed over the edge. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if both target endpoints exist and pathways link up cleanly. 
+\end{DoxyReturn}
+\Hypertarget{class_graph_a00be284ea2be3b3d0f0d2e493b70245b}\index{Graph$<$ T $>$@{Graph$<$ T $>$}!addVertex@{addVertex}}
+\index{addVertex@{addVertex}!Graph$<$ T $>$@{Graph$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{addVertex()}{addVertex()}}
+{\footnotesize\ttfamily \label{class_graph_a00be284ea2be3b3d0f0d2e493b70245b} 
+template$<$class T$>$ \\
+bool \doxymbox{\hyperlink{class_graph}{Graph}}$<$ T $>$::\+add\+Vertex (\begin{DoxyParamCaption}\item[{const T \&}]{in}{}\end{DoxyParamCaption})}
+
+
+
+Adds a new distinct vertex wrapper inside the internal structural repository vector. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em in} & Payload element content initialised inside the newly allocated instance. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if added cleanly, false if duplicate data match exists. 
+\end{DoxyReturn}
+\Hypertarget{class_graph_a8b7b7465fbfd562e2a469f90a437ab75}\index{Graph$<$ T $>$@{Graph$<$ T $>$}!findVertex@{findVertex}}
+\index{findVertex@{findVertex}!Graph$<$ T $>$@{Graph$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{findVertex()}{findVertex()}}
+{\footnotesize\ttfamily \label{class_graph_a8b7b7465fbfd562e2a469f90a437ab75} 
+template$<$class T$>$ \\
+\doxymbox{\hyperlink{class_vertex}{Vertex}}$<$ T $>$ \texorpdfstring{$\ast$}{*} \doxymbox{\hyperlink{class_graph}{Graph}}$<$ T $>$::\+find\+Vertex (\begin{DoxyParamCaption}\item[{const T \&}]{in}{}\end{DoxyParamCaption}) const}
+
+
+
+Traverses memory boundaries to locate an existing element vertex. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em in} & Data value to search for. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\doxylink{class_vertex}{Vertex$<$\+T$>$} Pointer to matching vertex structure, or nullptr if not found. 
+\end{DoxyReturn}
+\Hypertarget{class_graph_a676cdfb976eccfa82b631d2094c1cdac}\index{Graph$<$ T $>$@{Graph$<$ T $>$}!findVertexIdx@{findVertexIdx}}
+\index{findVertexIdx@{findVertexIdx}!Graph$<$ T $>$@{Graph$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{findVertexIdx()}{findVertexIdx()}}
+{\footnotesize\ttfamily \label{class_graph_a676cdfb976eccfa82b631d2094c1cdac} 
+template$<$class T$>$ \\
+int \doxymbox{\hyperlink{class_graph}{Graph}}$<$ T $>$::\+find\+Vertex\+Idx (\begin{DoxyParamCaption}\item[{const T \&}]{in}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [protected]}}
+
+\Hypertarget{class_graph_a0853eac15cdf0f06d63f4b8a7820ec71}\index{Graph$<$ T $>$@{Graph$<$ T $>$}!getNumVertex@{getNumVertex}}
+\index{getNumVertex@{getNumVertex}!Graph$<$ T $>$@{Graph$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{getNumVertex()}{getNumVertex()}}
+{\footnotesize\ttfamily \label{class_graph_a0853eac15cdf0f06d63f4b8a7820ec71} 
+template$<$class T$>$ \\
+int \doxymbox{\hyperlink{class_graph}{Graph}}$<$ T $>$::\+get\+Num\+Vertex (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+\Hypertarget{class_graph_a41624b03fcb6bd29e4df574a1ec58541}\index{Graph$<$ T $>$@{Graph$<$ T $>$}!getVertexSet@{getVertexSet}}
+\index{getVertexSet@{getVertexSet}!Graph$<$ T $>$@{Graph$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{getVertexSet()}{getVertexSet()}}
+{\footnotesize\ttfamily \label{class_graph_a41624b03fcb6bd29e4df574a1ec58541} 
+template$<$class T$>$ \\
+std::\+vector$<$ \doxymbox{\hyperlink{class_vertex}{Vertex}}$<$ T $>$ \texorpdfstring{$\ast$}{*} $>$ \doxymbox{\hyperlink{class_graph}{Graph}}$<$ T $>$::\+get\+Vertex\+Set (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+\Hypertarget{class_graph_af9edd1a5523525f1c77c8b28871fb439}\index{Graph$<$ T $>$@{Graph$<$ T $>$}!resetFlow@{resetFlow}}
+\index{resetFlow@{resetFlow}!Graph$<$ T $>$@{Graph$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{resetFlow()}{resetFlow()}}
+{\footnotesize\ttfamily \label{class_graph_af9edd1a5523525f1c77c8b28871fb439} 
+template$<$class T$>$ \\
+void \doxymbox{\hyperlink{class_graph}{Graph}}$<$ T $>$::\+reset\+Flow (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Resets current flow metrics to zero on all active edge variables. 
+
+
+
+\label{doc-variable-members}
+\Hypertarget{class_graph_doc-variable-members}
+\doxysubsection{Member Data Documentation}
+\Hypertarget{class_graph_a26b3a6b9c61f02f5b2cd38ad4c6a4953}\index{Graph$<$ T $>$@{Graph$<$ T $>$}!vertexSet@{vertexSet}}
+\index{vertexSet@{vertexSet}!Graph$<$ T $>$@{Graph$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{vertexSet}{vertexSet}}
+{\footnotesize\ttfamily \label{class_graph_a26b3a6b9c61f02f5b2cd38ad4c6a4953} 
+template$<$class T$>$ \\
+std::\+vector$<$\doxymbox{\hyperlink{class_vertex}{Vertex}}$<$T$>$ \texorpdfstring{$\ast$}{*}$>$ \doxymbox{\hyperlink{class_graph}{Graph}}$<$ T $>$::\+vertex\+Set\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+The documentation for this class was generated from the following file:\+\begin{DoxyCompactItemize}
+\item 
+src/\+\doxymbox{\hyperlink{graph_8h}{graph.\+h}}\end{DoxyCompactItemize}

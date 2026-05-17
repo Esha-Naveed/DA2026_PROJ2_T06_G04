@@ -1,0 +1,140 @@
+\doxysection{reg\+Alloc Class Reference}
+\hypertarget{classreg_alloc}{}\label{classreg_alloc}\index{regAlloc@{regAlloc}}
+
+
+Class responsible for executing graph coloring algorithms and resource-\/overflow strategies.  
+
+
+
+
+{\ttfamily \+\#include $<$reg\+Alloc.\+h$>$}
+
+\doxysubsubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static bool \doxymbox{\hyperlink{classreg_alloc_afb12e75f56db07074de3440ea7fe1bc2}{base\+Allocation}} (\doxymbox{\hyperlink{class_graph}{Graph}}$<$ \doxymbox{\hyperlink{struct_web}{Web}} $>$ \&g, int num\+Reg)
+\begin{DoxyCompactList}\small\item\em Performs a standard greedy register allocation over the graph. @timecomplexity O(\+V \texorpdfstring{$\ast$}{*} E) where V is the number of vertices (webs) and E is the average number of edges checked per node. @spacecomplexity O(\+R) where R is the number of registers tracked in the local used-\/register set. \end{DoxyCompactList}\item 
+static void \doxymbox{\hyperlink{classreg_alloc_a7d9f8b4273d1c22545ca5878bd9b314d}{spilling}} (\doxymbox{\hyperlink{class_graph}{Graph}}$<$ \doxymbox{\hyperlink{struct_web}{Web}} $>$ \&g, int num\+Reg, int max\+Spilling)
+\begin{DoxyCompactList}\small\item\em Progressively spills high-\/degree nodes to memory until the graph can be successfully allocated. @timecomplexity O(\+S \texorpdfstring{$\ast$}{*} V \texorpdfstring{$\ast$}{*} E) where S is the number of spill iterations needed, V is vertex count, and E is edge count. @spacecomplexity O(1) auxiliary memory footprint. \end{DoxyCompactList}\item 
+static void \doxymbox{\hyperlink{classreg_alloc_af98042f722d270ec55ef3b0e154aa344}{splitting}} (\doxymbox{\hyperlink{class_graph}{Graph}}$<$ \doxymbox{\hyperlink{struct_web}{Web}} $>$ \&g, int num\+Reg, int max\+Splitting, int \&count\+Split)
+\begin{DoxyCompactList}\small\item\em Recursively bisects high-\/interference live ranges into smaller sub-\/webs to facilitate allocation. @timecomplexity O(2\texorpdfstring{$^\wedge$}{\string^}\+S \texorpdfstring{$\ast$}{*} V\texorpdfstring{$^\wedge$}{\string^}2) due to recursive bisection logic and global interference recalculation sweeps. @spacecomplexity O(\+S) where S is the maximum recursion depth on the execution call stack. \end{DoxyCompactList}\item 
+static \doxymbox{\hyperlink{class_vertex}{Vertex}}$<$ \doxymbox{\hyperlink{struct_web}{Web}} $>$ \texorpdfstring{$\ast$}{*} \doxymbox{\hyperlink{classreg_alloc_ac5dc2af70ac17dfd9e04ff13a6ade77e}{find\+Max\+Degree}} (\doxymbox{\hyperlink{class_graph}{Graph}}$<$ \doxymbox{\hyperlink{struct_web}{Web}} $>$ \&g)
+\begin{DoxyCompactList}\small\item\em Identifies the unallocated vertex holding the maximum active constraints (highest active edge degree). @timecomplexity O(\+V \texorpdfstring{$\ast$}{*} E) where V is the total vertex pool and E is the adjacency evaluation depth. @spacecomplexity O(1) auxiliary variable storage. \end{DoxyCompactList}\item 
+static bool \doxymbox{\hyperlink{classreg_alloc_a8b8e5f74caa592974339b8774e6e5515}{custom\+Allocation}} (\doxymbox{\hyperlink{class_graph}{Graph}}$<$ \doxymbox{\hyperlink{struct_web}{Web}} $>$ \&g, int num\+Reg)
+\begin{DoxyCompactList}\small\item\em Executes a stack-\/based Kempe/\+\+Chaitin graph coloring register allocation heuristic. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Class responsible for executing graph coloring algorithms and resource-\/overflow strategies. 
+
+\label{doc-func-members}
+\Hypertarget{classreg_alloc_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classreg_alloc_afb12e75f56db07074de3440ea7fe1bc2}\index{regAlloc@{regAlloc}!baseAllocation@{baseAllocation}}
+\index{baseAllocation@{baseAllocation}!regAlloc@{regAlloc}}
+\doxysubsubsection{\texorpdfstring{baseAllocation()}{baseAllocation()}}
+{\footnotesize\ttfamily \label{classreg_alloc_afb12e75f56db07074de3440ea7fe1bc2} 
+bool reg\+Alloc::\+base\+Allocation (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{class_graph}{Graph}}$<$ \doxymbox{\hyperlink{struct_web}{Web}} $>$ \&}]{g}{, }\item[{int}]{num\+Reg}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Performs a standard greedy register allocation over the graph. @timecomplexity O(\+V \texorpdfstring{$\ast$}{*} E) where V is the number of vertices (webs) and E is the average number of edges checked per node. @spacecomplexity O(\+R) where R is the number of registers tracked in the local used-\/register set. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em g} & Reference to the active web interference graph. \\
+\hline
+{\em num\+Reg} & Total number of available physical hardware registers. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if all non-\/spilled webs are colored successfully, false if resource capacity is exceeded. 
+\end{DoxyReturn}
+\Hypertarget{classreg_alloc_a8b8e5f74caa592974339b8774e6e5515}\index{regAlloc@{regAlloc}!customAllocation@{customAllocation}}
+\index{customAllocation@{customAllocation}!regAlloc@{regAlloc}}
+\doxysubsubsection{\texorpdfstring{customAllocation()}{customAllocation()}}
+{\footnotesize\ttfamily \label{classreg_alloc_a8b8e5f74caa592974339b8774e6e5515} 
+bool reg\+Alloc::\+custom\+Allocation (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{class_graph}{Graph}}$<$ \doxymbox{\hyperlink{struct_web}{Web}} $>$ \&}]{g}{, }\item[{int}]{num\+Reg}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Executes a stack-\/based Kempe/\+\+Chaitin graph coloring register allocation heuristic. 
+
+Implements a dual-\/phase optimization:\+
+\begin{DoxyEnumerate}
+\item Simplification/\+\+Spill Phase:\+ Iteratively removes vertices with an active degree less than num\+Reg and pushes them onto an execution stack. If a deadlock occurs, a potential spill node is selected using a maximum degree heuristic.
+\item Selection/\+\+Coloring Phase:\+ Pops vertices off the stack and assigns the lowest available register index, marking uncolorable nodes as spilled (-\/2). @timecomplexity O(V\texorpdfstring{$^\wedge$}{\string^}2 + V \texorpdfstring{$\ast$}{*} E) where V is the total number of vertices and E is the edge density, driven by repeated active adjacency degree evaluation scans under state blocks. @spacecomplexity O(\+V) to maintain the local LIFO reconstruction stack and unique removed vertex set tracking logs. 
+\begin{DoxyParams}{Parameters}
+{\em g} & Reference to the active web interference graph structure. \\
+\hline
+{\em num\+Reg} & Total number of physical hardware registers allocated to the compiler architecture limit. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if the graph was perfectly colored with zero spills; false if any node had to be spilled to memory. 
+\end{DoxyReturn}
+
+\end{DoxyEnumerate}\Hypertarget{classreg_alloc_ac5dc2af70ac17dfd9e04ff13a6ade77e}\index{regAlloc@{regAlloc}!findMaxDegree@{findMaxDegree}}
+\index{findMaxDegree@{findMaxDegree}!regAlloc@{regAlloc}}
+\doxysubsubsection{\texorpdfstring{findMaxDegree()}{findMaxDegree()}}
+{\footnotesize\ttfamily \label{classreg_alloc_ac5dc2af70ac17dfd9e04ff13a6ade77e} 
+\doxymbox{\hyperlink{class_vertex}{Vertex}}$<$ \doxymbox{\hyperlink{struct_web}{Web}} $>$ \texorpdfstring{$\ast$}{*} reg\+Alloc::\+find\+Max\+Degree (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{class_graph}{Graph}}$<$ \doxymbox{\hyperlink{struct_web}{Web}} $>$ \&}]{g}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Identifies the unallocated vertex holding the maximum active constraints (highest active edge degree). @timecomplexity O(\+V \texorpdfstring{$\ast$}{*} E) where V is the total vertex pool and E is the adjacency evaluation depth. @spacecomplexity O(1) auxiliary variable storage. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em g} & Reference to the active web interference graph. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\doxylink{class_vertex}{Vertex$<$\+Web$>$}\texorpdfstring{$\ast$}{*} Pointer to the maximum degree node, or nullptr if all remaining active nodes are isolated. 
+\end{DoxyReturn}
+\Hypertarget{classreg_alloc_a7d9f8b4273d1c22545ca5878bd9b314d}\index{regAlloc@{regAlloc}!spilling@{spilling}}
+\index{spilling@{spilling}!regAlloc@{regAlloc}}
+\doxysubsubsection{\texorpdfstring{spilling()}{spilling()}}
+{\footnotesize\ttfamily \label{classreg_alloc_a7d9f8b4273d1c22545ca5878bd9b314d} 
+void reg\+Alloc::\+spilling (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{class_graph}{Graph}}$<$ \doxymbox{\hyperlink{struct_web}{Web}} $>$ \&}]{g}{, }\item[{int}]{num\+Reg}{, }\item[{int}]{max\+Spilling}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Progressively spills high-\/degree nodes to memory until the graph can be successfully allocated. @timecomplexity O(\+S \texorpdfstring{$\ast$}{*} V \texorpdfstring{$\ast$}{*} E) where S is the number of spill iterations needed, V is vertex count, and E is edge count. @spacecomplexity O(1) auxiliary memory footprint. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em g} & Reference to the active web interference graph. \\
+\hline
+{\em num\+Reg} & Total number of available physical hardware registers. \\
+\hline
+{\em max\+Spilling} & Hard threshold limiting the maximum number of webs allowed to be spilled. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classreg_alloc_af98042f722d270ec55ef3b0e154aa344}\index{regAlloc@{regAlloc}!splitting@{splitting}}
+\index{splitting@{splitting}!regAlloc@{regAlloc}}
+\doxysubsubsection{\texorpdfstring{splitting()}{splitting()}}
+{\footnotesize\ttfamily \label{classreg_alloc_af98042f722d270ec55ef3b0e154aa344} 
+void reg\+Alloc::\+splitting (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{class_graph}{Graph}}$<$ \doxymbox{\hyperlink{struct_web}{Web}} $>$ \&}]{g}{, }\item[{int}]{num\+Reg}{, }\item[{int}]{max\+Splitting}{, }\item[{int \&}]{count\+Split}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Recursively bisects high-\/interference live ranges into smaller sub-\/webs to facilitate allocation. @timecomplexity O(2\texorpdfstring{$^\wedge$}{\string^}\+S \texorpdfstring{$\ast$}{*} V\texorpdfstring{$^\wedge$}{\string^}2) due to recursive bisection logic and global interference recalculation sweeps. @spacecomplexity O(\+S) where S is the maximum recursion depth on the execution call stack. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em g} & Reference to the active web interference graph. \\
+\hline
+{\em num\+Reg} & Total number of available physical hardware registers. \\
+\hline
+{\em max\+Splitting} & Hard threshold limiting the maximum number of structural splits allowed. \\
+\hline
+{\em count\+Split} & Reference tracking counter monitoring currently processed split iterations. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files:\+\begin{DoxyCompactItemize}
+\item 
+src/\+\doxymbox{\hyperlink{reg_alloc_8h}{reg\+Alloc.\+h}}\item 
+src/\+\doxymbox{\hyperlink{reg_alloc_8cpp}{reg\+Alloc.\+cpp}}\end{DoxyCompactItemize}
