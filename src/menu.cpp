@@ -50,6 +50,7 @@ void handleInteractiveMode(ProjData& data) {
     bool graphBuilt = false;
     while (choice != 0) {
         displayMenu();
+
         if (!(cin >> choice)) {
             cin.clear();
             cin.ignore(1000, '\n');
