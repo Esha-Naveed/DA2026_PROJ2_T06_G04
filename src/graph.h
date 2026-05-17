@@ -1,6 +1,12 @@
 //
 // Created by esha-naveed on 5/15/26.
 //
+/**
+* @file graph.h
+* @brief Generic Template Graph Framework.
+* @details Implements a directed/network flow graph template featuring
+* vertices, adjacency-backed edges, and capacity-reverse pairing structures.
+*/
 
 #ifndef DA2026_PROJ2_T06_G04_GRAPH_H
 #define DA2026_PROJ2_T06_G04_GRAPH_H
@@ -13,6 +19,10 @@ class Edge;
 
 #define INF std::numeric_limits<double>::max()
 
+/**
+* @class Vertex
+* @brief Represents a node within the graph framework holding entity structural details.
+*/
 /************************* Vertex  **************************/
 template <class T>
 class Vertex {
@@ -28,6 +38,12 @@ public:
     Edge<T> *getPath() const;
     void setPath(Edge<T> *path);
 
+    /**
+    * @brief Allocates and appends an outgoing edge from this vertex to a destination node.
+    * @param dest Pointer to the target destination vertex.
+    * @param w Structural capacity/weight value assigned to the edge.
+    * @return Edge<T>* Pointer to the newly generated edge instance.
+    */
     Edge<T> * addEdge(Vertex<T> *dest, double w);
 
 protected:
@@ -37,6 +53,10 @@ protected:
     Edge<T> *path = nullptr; //use to backtrack aug path
 };
 
+/**
+* @class Edge
+* @brief Encapsulates a directed relationship linking source nodes to target nodes.
+*/
 /********************** Edge  ****************************/
 template <class T>
 class Edge {
@@ -61,17 +81,43 @@ protected:
     Edge<T> *reverse = nullptr;
 };
 
+/**
+* @class Graph
+* @brief Top-level storage engine grouping vertex systems and data routing pipelines.
+*/
 /********************** Graph  ****************************/
 
 template <class T>
 class Graph {
 public:
-
+    /**
+    * @brief Traverses memory boundaries to locate an existing element vertex.
+    * @param in Data value to search for.
+    * @return Vertex<T>
+    * Pointer to matching vertex structure, or nullptr if not found.
+    */
     Vertex<T> *findVertex(const T &in) const;
 
+    /**
+    * @brief Adds a new distinct vertex wrapper inside the internal structural repository vector.
+    * @param in Payload element content initialised inside the newly allocated instance.
+    * @return true if added cleanly, false if duplicate data match exists.
+    */
     bool addVertex(const T &in);
 
+    /**
+    * @brief Generates complementary dual flow pathways linking source inputs straight through to targets.
+    * @details Generates an active forward route containing specific sizing limits matched with
+    * a residual reverse pathway holding a capacity scale of zero.
+    * @param source Struct variant initializing the origin zone.
+    * @param dest Struct variant initializing the terminal point.
+    * @param cap Sizing ceiling capacity boundaries allowed over the edge.
+    * @return true if both target endpoints exist and pathways link up cleanly. */
     bool addFlowEdge(const T &source, const T &dest, double cap);
+
+    /**
+    * @brief Resets current flow metrics to zero on all active edge variables.
+    */
     void resetFlow();
     int getNumVertex() const;
     std::vector<Vertex<T> *> getVertexSet() const;

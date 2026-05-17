@@ -2,6 +2,11 @@
 // Created by esha-naveed on 5/14/26.
 //
 /*read input files and parse data*/
+/**
+* @file parser.cpp
+* @brief Implementation of file parsing and greedy live-range web merging.
+*/
+
 #include "parser.h"
 #include <fstream>
 #include <sstream>
