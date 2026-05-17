@@ -46,11 +46,14 @@ bool regAlloc::baseAllocation(Graph<Web> &g, int numReg) {
         w.assignedRegister = -1;
     }*/
 
+    stack<Vertex<Web>*> colorStack;
+    set<Vertex<Web>*> removedV;
+
     //resetting allocations
     for (auto v : vertices) {
-        if (v->getInfo().assignedRegister != -2) v->getInfo().assignedRegister = -1;
+        if (v->getInfo().assignedRegister != -2) removedV.insert(v);//v->getInfo().assignedRegister = -1;
     }
-
+/*
     //Greedy interation over each vertex
     for (auto vertex : vertices) {
         //skipping spilled nodes
@@ -89,7 +92,75 @@ bool regAlloc::baseAllocation(Graph<Web> &g, int numReg) {
         vertex->getInfo().assignedRegister = assign;
     }
     //else the function works trough all of it and return true
-    return true;
+    return true;*/
+    bool working = true;
+    while (working) {
+        working = false;
+        for (auto v : vertices) {
+            if (removedV.count(v)) continue;
+
+            int activeEdges = 0;
+            for (auto edge : v->getAdj()) {
+                if (removedV.count(edge->getDest()) == 0) activeEdges++;
+            }
+
+            if (activeEdges < numReg) {
+                colorStack.push(v);
+                removedV.insert(v);
+                working = true;
+                break;
+            }
+        }
+
+        // if blocked, node pushed (Optimistic Spilling Heuristic)
+        if (!working && removedV.size() < vertices.size()) {
+            Vertex<Web>* spillVertex = nullptr;
+            int maxDgree = -1;
+
+            for (auto v: vertices) {
+                if (removedV.count(v)) continue;
+                int activeEdgeReg = 0;
+                for (auto edge: v->getAdj()) {
+                    if (removedV.count(edge->getDest()) == 0) activeEdgeReg++;
+                }
+                if (activeEdgeReg > maxDgree) {
+                    maxDgree = activeEdgeReg;
+                    spillVertex = v;
+                }
+            }
+            if (spillVertex) {
+                colorStack.push(spillVertex);
+                removedV.insert(spillVertex);
+                working = true;
+            }
+        }
+    }
+
+    bool success = true;
+    while (!colorStack.empty()) {
+        auto v = colorStack.top();
+        colorStack.pop();
+
+        set<int> usedReg;
+        for (auto edge : v->getAdj()) {
+            int adjReg = edge->getDest()->getInfo().assignedRegister;
+            if (adjReg >= 0) usedReg.insert(adjReg);
+        }
+
+        int selectedReg = -1;
+        for (int i=0; i<numReg; i++) {
+            if (usedReg.count(i)==0) {
+                selectedReg = i;
+                break;
+            }
+        }
+
+        v->getInfo().assignedRegister = selectedReg;
+        if (selectedReg == -1) {
+            success = false;
+        }
+    }
+    return success;
 }
 
 void regAlloc::spilling(Graph<Web> &g, int numReg, int maxSpilling) {
@@ -107,12 +178,13 @@ void regAlloc::spilling(Graph<Web> &g, int numReg, int maxSpilling) {
 
         cout << "Spilled for the web: " << v->getInfo().id << " | name: " << v->getInfo().varName << endl;
     }
+    baseAllocation(g, numReg);
 }
 
 //using recursion for this
 void regAlloc::splitting(Graph<Web> &g, int numReg, int maxSplitting, int &countSplit) {
     //checking if graph already perfectly colored
-    if (baseAllocation(g, numReg)) return; //works just fine, does not need to be split
+    if (baseAllocation(g, numReg) || countSplit >= maxSplitting) return; //works just fine, does not need to be split
 
     //loops until countSplit < maxSplit
     while (countSplit < maxSplitting) {

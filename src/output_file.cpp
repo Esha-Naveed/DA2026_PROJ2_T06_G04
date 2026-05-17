@@ -35,8 +35,8 @@ void output_file::createOutputFile(const string &fileName, Graph<Web>& g, int nu
     }
 
     if (allocFail) cout << "[Error] No number of registers." << endl;
-    cout << "# Total number of webs followed by the listing of the program points of each one" << endl;
-    cout << "# program points in each web are sorted in ascending order" << endl;
+    //cout << "# Total number of webs followed by the listing of the program points of each one" << endl;
+    //cout << "# program points in each web are sorted in ascending order" << endl;
 
     //writing list of webs list
     outFile << "webs: " <<vertices.size() << "\n";
@@ -56,7 +56,11 @@ void output_file::createOutputFile(const string &fileName, Graph<Web>& g, int nu
     //writing list for registers
     if (allocFail) {
         outFile << "registers: 0\n";
-        for (auto v : vertices) outFile << "M: web" << v->getInfo().id << "\n";
+        for (auto v : vertices) {
+            Web w = v->getInfo();
+            if (w.assignedRegister == -2) outFile << "M: web" << w.id << "\n";
+            else outFile << "r" << w.assignedRegister << ": web" << w.id << "\n";
+        }
     } else {
         int regUsed = 0;
         for (auto v : vertices) {
@@ -64,12 +68,12 @@ void output_file::createOutputFile(const string &fileName, Graph<Web>& g, int nu
         }
 
         //if no reg used cuz of spilling
-        outFile << "registers: " << regUsed << "\n";
+        outFile << "registers: " << regUsed+1 << "\n";
 
         for (auto v : vertices) {
             Web w = v->getInfo();
-            if (w.assignedRegister == -2 || w.assignedRegister == -1) outFile << "M: web" << w.id << "\n";
-            else outFile << "r" << w.assignedRegister-1 << ": web" << w.id << "\n";
+            if (w.assignedRegister == -2) outFile << "M: web" << w.id << "\n";
+            else if (w.assignedRegister >= 0) outFile << "r" << w.assignedRegister-1 << ": web" << w.id << "\n";
         }
     }
 

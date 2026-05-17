@@ -30,12 +30,13 @@ void displayMenu() {
 void promptOutputFile(ProjData& data) {
     if (!data.outputFile.empty()) return;
 
-    const string OUTPUT_DIR = "basic/basic/output/";
+    //const string OUTPUT_DIR = "basic/basic/output/";
     string outFilename;
 
     cout << "Enter output filename: ";
     cin >> outFilename;
-    data.outputFile = OUTPUT_DIR + outFilename;
+    //data.outputFile = OUTPUT_DIR + outFilename;
+    data.outputFile = outFilename;
 }
 
 void handleInteractiveMode(ProjData& data) {
@@ -50,46 +51,48 @@ void handleInteractiveMode(ProjData& data) {
             continue;
         }
 
-        if (choice >= 2 && choice <= 6) {
-            if (data.rangesFile.empty() || data.regsFile.empty()) {
-                cout << "[Error]: load input files first (1.)" << endl;
-                continue;
-            }
-        }
-
         switch (choice) {
             case 1: {
                 // paths
-                const string RANGES_DIR = "basic/basic/ranges/";
-                const string REGS_DIR = "basic/basic/registers/";
+                //const string RANGES_DIR = "basic/basic/ranges/";
+                //const string REGS_DIR = "basic/basic/registers/";
                 string filename;
 
                 cout << "Enter live ranges filename: ";
                 cin >> filename;
-                data.rangesFile = RANGES_DIR + filename;
+                //data.rangesFile = RANGES_DIR + filename;
+                data.rangesFile = filename;
 
                 cout << "Enter registers filename: ";
                 cin >> filename;
-                data.regsFile = REGS_DIR + filename;
+                //data.regsFile = REGS_DIR + filename;
+                data.regsFile = filename;
 
                 // parser(data);
-                if (parseRegsFile(data) && parseRangesFile(data)) {
+                if (!parseRegsFile(data) || !parseRangesFile(data)) {
+                    cout << "[Warning] Error parsing inputs. Please check file paths." << endl;
+
+                } else {
                     cout << "[Success] Data loaded cleanly. Found " << data.allWebs.size() << " variable webs." << endl;
                     graphBuilt = false;
-                } else {
-                    cout << "[Warning] Error parsing inputs. Please check file paths." << endl;
                 }
                 break;
             }
+
             case 2:
+                if (data.rangesFile.empty() || data.regsFile.empty()) {
+                    cout << "[Error]: load input files first (1.)" << endl;
+                    continue;
+                }
                 // build interference graph
                 g = createGraph::buildGraph(data);
                 graphBuilt = true;
                 cout << "[Success] Graph built." << endl;
                 break;
+
             case 3:
                 if (!graphBuilt) {
-                    cout << "[Error]" << endl;
+                    cout << "[Error] Build interference graph first." << endl;
                     break;
                 }
 
@@ -125,6 +128,7 @@ void handleInteractiveMode(ProjData& data) {
                 output_file::createOutputFile(data.outputFile, g, data.numReg);
                 break;
             }
+
             case 5: {
                 if (!graphBuilt) {
                     cout << "[Error]" << endl;
@@ -143,6 +147,7 @@ void handleInteractiveMode(ProjData& data) {
                 output_file::createOutputFile(data.outputFile, g, data.numReg);
                 break;
             }
+
             case 6:
                 if (!graphBuilt) {
                     cout << "[Error]" << endl;
@@ -158,6 +163,7 @@ void handleInteractiveMode(ProjData& data) {
 
                 output_file::createOutputFile(data.outputFile, g, data.numReg);
                 break;
+
             case 0:
                 cout << "Exiting..." << endl;
                 break;

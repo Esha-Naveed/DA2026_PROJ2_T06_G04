@@ -62,8 +62,42 @@ bool parseRangesFile(ProjData &data) {
         return false;
     }
 
+    vector<LiveRange> rawRanges;
     string line;
-    string currentVar = "";
+
+    while (getline(file, line)) {
+        line = cleanLine(line);
+        if (line.empty()) continue;
+
+        stringstream ss(line);
+        string varName;
+        if (!(ss >> varName)) continue;
+
+        LiveRange r;
+        r.varName = varName;
+        r.startsWith = false;
+        r.endsWith = false;
+
+        string token;
+        while (ss >> token) {
+            if (token == "+") {
+                r.startsWith = true;
+            } else if (token == "-") {
+                r.endsWith = true;
+            } else {
+                try {
+                    token.erase(remove(token.begin(), token.end(), ','), token.end());
+                    if (!token.empty()) {
+                        r.lines.push_back(stoi(token));
+                    }
+                } catch (...) { }
+            }
+        }
+        rawRanges.push_back(r);
+    }
+/*
+    string line;
+    //string currentVar = "";
     vector<LiveRange> temporaryRanges;
 
     while (getline(file, line)) {
@@ -112,6 +146,61 @@ bool parseRangesFile(ProjData &data) {
     // process temporary list of individual ranges and group them into Webs
     //mergeRangesIntoWebs(temporaryRanges, data);
     webProcessing::buildWebs(temporaryRanges, data);
+*/
+
+    int webIdCounter = 0;
+
+    // group raw ranges by variable name
+    map<string, vector<LiveRange>> rangesByVar;
+    for (const auto& r : rawRanges) {
+        rangesByVar[r.varName].push_back(r);
+    }
+
+    // perform greedy merging of overlapping execution intervals
+    for (auto& pair : rangesByVar) {
+        const string& varName = pair.first;
+        vector<LiveRange>& ranges = pair.second;
+
+        vector<set<int>> mergedWebPoints;
+
+        for (const auto& r : ranges) {
+            set<int> currentSet(r.lines.begin(), r.lines.end());
+            bool merged = false;
+
+            // check for shared lines
+            for (auto& existingWeb : mergedWebPoints) {
+                bool overlaps = false;
+                for (int point : currentSet) {
+                    if (existingWeb.count(point)) {
+                        overlaps = true;
+                        break;
+                    }
+                }
+
+                if (overlaps) {
+                    existingWeb.insert(currentSet.begin(), currentSet.end());
+                    merged = true;
+                    break;
+                }
+            }
+
+            if (!merged) {
+                mergedWebPoints.push_back(currentSet);
+            }
+        }
+
+        // turn the sets into web instances inside data.allWebs
+        for (const auto& pointSet : mergedWebPoints) {
+            Web newWeb;
+            newWeb.id = webIdCounter++;
+            newWeb.varName = varName;
+            newWeb.progPoints = pointSet;
+            newWeb.assignedRegister = -1;
+
+            data.allWebs[newWeb.id] = newWeb;
+        }
+    }
+
     return true;
 }
 
